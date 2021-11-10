@@ -18,7 +18,7 @@
 *Рис.1 Принципова схема спроектованого пристрою*
 >
 ## Код програми
-'''C
+'''с
 #include "project.h"
 #define SIZE(x) sizeof(x)/sizeof(x[0])
 #define MINUS 0
