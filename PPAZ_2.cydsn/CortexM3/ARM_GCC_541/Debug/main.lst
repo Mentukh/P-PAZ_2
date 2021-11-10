@@ -1,0 +1,2313 @@
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** #include "project.h"
+   2:main.c        **** #define SIZE(x) sizeof(x)/sizeof(x[0])
+   3:main.c        **** #define MINUS 0
+   4:main.c        **** #define PLUS 255
+   5:main.c        **** uint8 signal[]={1,0,1,1,0,0,0,0,1,0,1,0};
+   6:main.c        **** 
+   7:main.c        **** int main(void)
+   8:main.c        **** {
+  28              		.loc 1 8 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 38B5     		push	{r3, r4, r5, lr}
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 3, -16
+  35              		.cfi_offset 4, -12
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 14, -4
+   9:main.c        ****     CyGlobalIntEnable; 
+  38              		.loc 1 9 0
+  39              		.syntax unified
+  40              	@ 9 "main.c" 1
+  41 0002 62B6     		CPSIE   i
+  42              	@ 0 "" 2
+  10:main.c        ****     
+  11:main.c        ****     if( SIZE(signal)%3 == 0)
+  12:main.c        ****         VDAC8_Start();
+  43              		.loc 1 12 0
+  44              		.thumb
+  45              		.syntax unified
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 2
+
+
+  46 0004 FFF7FEFF 		bl	VDAC8_Start
+  47              	.LVL0:
+  13:main.c        ****     uint8 RDS = 0;
+  48              		.loc 1 13 0
+  49 0008 0025     		movs	r5, #0
+  50              	.LVL1:
+  51              	.L15:
+  52              	.LBB2:
+  14:main.c        ****     for(;;)
+  15:main.c        ****     {
+  16:main.c        ****         for(uint8 i = 0; i < SIZE(signal); i+=3)
+  53              		.loc 1 16 0
+  54 000a 0024     		movs	r4, #0
+  55 000c 80E1     		b	.L2
+  56              	.LVL2:
+  57              	.L14:
+  17:main.c        ****         {
+  18:main.c        ****             if(signal[i] == 0 && signal[i+1] == 0 && signal[i+2] == 0)  //000
+  58              		.loc 1 18 0
+  59 000e 2246     		mov	r2, r4
+  60 0010 C14B     		ldr	r3, .L17
+  61 0012 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+  62 0014 1BBB     		cbnz	r3, .L3
+  63              		.loc 1 18 0 is_stmt 0 discriminator 1
+  64 0016 611C     		adds	r1, r4, #1
+  65 0018 BF48     		ldr	r0, .L17
+  66 001a 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+  67 001c F9B9     		cbnz	r1, .L3
+  68              		.loc 1 18 0 discriminator 2
+  69 001e A11C     		adds	r1, r4, #2
+  70 0020 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+  71 0022 E1B9     		cbnz	r1, .L3
+  19:main.c        ****             {
+  20:main.c        ****                 VDAC8_SetValue(MINUS);
+  72              		.loc 1 20 0 is_stmt 1
+  73 0024 0020     		movs	r0, #0
+  74 0026 FFF7FEFF 		bl	VDAC8_SetValue
+  75              	.LVL3:
+  21:main.c        ****                 CyDelay(1000);
+  76              		.loc 1 21 0
+  77 002a 4FF47A70 		mov	r0, #1000
+  78 002e FFF7FEFF 		bl	CyDelay
+  79              	.LVL4:
+  22:main.c        ****                 VDAC8_SetValue(MINUS);
+  80              		.loc 1 22 0
+  81 0032 0020     		movs	r0, #0
+  82 0034 FFF7FEFF 		bl	VDAC8_SetValue
+  83              	.LVL5:
+  23:main.c        ****                 CyDelay(1000);
+  84              		.loc 1 23 0
+  85 0038 4FF47A70 		mov	r0, #1000
+  86 003c FFF7FEFF 		bl	CyDelay
+  87              	.LVL6:
+  24:main.c        ****                 VDAC8_SetValue(PLUS);
+  88              		.loc 1 24 0
+  89 0040 FF20     		movs	r0, #255
+  90 0042 FFF7FEFF 		bl	VDAC8_SetValue
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 3
+
+
+  91              	.LVL7:
+  25:main.c        ****                 CyDelay(1000);
+  92              		.loc 1 25 0
+  93 0046 4FF47A70 		mov	r0, #1000
+  94 004a FFF7FEFF 		bl	CyDelay
+  95              	.LVL8:
+  26:main.c        ****                 VDAC8_SetValue(PLUS);
+  96              		.loc 1 26 0
+  97 004e FF20     		movs	r0, #255
+  98 0050 FFF7FEFF 		bl	VDAC8_SetValue
+  99              	.LVL9:
+  27:main.c        ****                 CyDelay(1000);
+ 100              		.loc 1 27 0
+ 101 0054 4FF47A70 		mov	r0, #1000
+ 102 0058 FFF7FEFF 		bl	CyDelay
+ 103              	.LVL10:
+ 104 005c 56E1     		b	.L4
+ 105              	.L3:
+  28:main.c        ****             }
+  29:main.c        ****             else if(signal[i] == 0 && signal[i+1] == 0 && signal[i+2] == 1)  //001
+ 106              		.loc 1 29 0
+ 107 005e 23BB     		cbnz	r3, .L5
+ 108              		.loc 1 29 0 is_stmt 0 discriminator 1
+ 109 0060 511C     		adds	r1, r2, #1
+ 110 0062 AD48     		ldr	r0, .L17
+ 111 0064 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 112 0066 01BB     		cbnz	r1, .L5
+ 113              		.loc 1 29 0 discriminator 2
+ 114 0068 911C     		adds	r1, r2, #2
+ 115 006a 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 116 006c 0129     		cmp	r1, #1
+ 117 006e 1CD1     		bne	.L5
+  30:main.c        ****             {
+  31:main.c        ****                 VDAC8_SetValue(MINUS);
+ 118              		.loc 1 31 0 is_stmt 1
+ 119 0070 0020     		movs	r0, #0
+ 120 0072 FFF7FEFF 		bl	VDAC8_SetValue
+ 121              	.LVL11:
+  32:main.c        ****                 CyDelay(1000);
+ 122              		.loc 1 32 0
+ 123 0076 4FF47A70 		mov	r0, #1000
+ 124 007a FFF7FEFF 		bl	CyDelay
+ 125              	.LVL12:
+  33:main.c        ****                 VDAC8_SetValue(PLUS);
+ 126              		.loc 1 33 0
+ 127 007e FF20     		movs	r0, #255
+ 128 0080 FFF7FEFF 		bl	VDAC8_SetValue
+ 129              	.LVL13:
+  34:main.c        ****                 CyDelay(1000);
+ 130              		.loc 1 34 0
+ 131 0084 4FF47A70 		mov	r0, #1000
+ 132 0088 FFF7FEFF 		bl	CyDelay
+ 133              	.LVL14:
+  35:main.c        ****                 VDAC8_SetValue(MINUS);
+ 134              		.loc 1 35 0
+ 135 008c 0020     		movs	r0, #0
+ 136 008e FFF7FEFF 		bl	VDAC8_SetValue
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 4
+
+
+ 137              	.LVL15:
+  36:main.c        ****                 CyDelay(1000);
+ 138              		.loc 1 36 0
+ 139 0092 4FF47A70 		mov	r0, #1000
+ 140 0096 FFF7FEFF 		bl	CyDelay
+ 141              	.LVL16:
+  37:main.c        ****                 VDAC8_SetValue(PLUS);
+ 142              		.loc 1 37 0
+ 143 009a FF20     		movs	r0, #255
+ 144 009c FFF7FEFF 		bl	VDAC8_SetValue
+ 145              	.LVL17:
+  38:main.c        ****                 CyDelay(1000);
+ 146              		.loc 1 38 0
+ 147 00a0 4FF47A70 		mov	r0, #1000
+ 148 00a4 FFF7FEFF 		bl	CyDelay
+ 149              	.LVL18:
+ 150 00a8 30E1     		b	.L4
+ 151              	.L5:
+  39:main.c        ****             }
+  40:main.c        ****             else if(signal[i] == 0 && signal[i+1] == 1 && signal[i+2] == 0)  //010
+ 152              		.loc 1 40 0
+ 153 00aa 23BB     		cbnz	r3, .L6
+ 154              		.loc 1 40 0 is_stmt 0 discriminator 1
+ 155 00ac 511C     		adds	r1, r2, #1
+ 156 00ae 9A48     		ldr	r0, .L17
+ 157 00b0 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 158 00b2 0129     		cmp	r1, #1
+ 159 00b4 1FD1     		bne	.L6
+ 160              		.loc 1 40 0 discriminator 2
+ 161 00b6 911C     		adds	r1, r2, #2
+ 162 00b8 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 163 00ba E1B9     		cbnz	r1, .L6
+  41:main.c        ****             {
+  42:main.c        ****                 VDAC8_SetValue(PLUS);
+ 164              		.loc 1 42 0 is_stmt 1
+ 165 00bc FF20     		movs	r0, #255
+ 166 00be FFF7FEFF 		bl	VDAC8_SetValue
+ 167              	.LVL19:
+  43:main.c        ****                 CyDelay(1000);
+ 168              		.loc 1 43 0
+ 169 00c2 4FF47A70 		mov	r0, #1000
+ 170 00c6 FFF7FEFF 		bl	CyDelay
+ 171              	.LVL20:
+  44:main.c        ****                 VDAC8_SetValue(MINUS);
+ 172              		.loc 1 44 0
+ 173 00ca 0020     		movs	r0, #0
+ 174 00cc FFF7FEFF 		bl	VDAC8_SetValue
+ 175              	.LVL21:
+  45:main.c        ****                 CyDelay(1000);
+ 176              		.loc 1 45 0
+ 177 00d0 4FF47A70 		mov	r0, #1000
+ 178 00d4 FFF7FEFF 		bl	CyDelay
+ 179              	.LVL22:
+  46:main.c        ****                 VDAC8_SetValue(MINUS);
+ 180              		.loc 1 46 0
+ 181 00d8 0020     		movs	r0, #0
+ 182 00da FFF7FEFF 		bl	VDAC8_SetValue
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 5
+
+
+ 183              	.LVL23:
+  47:main.c        ****                 CyDelay(1000);
+ 184              		.loc 1 47 0
+ 185 00de 4FF47A70 		mov	r0, #1000
+ 186 00e2 FFF7FEFF 		bl	CyDelay
+ 187              	.LVL24:
+  48:main.c        ****                 VDAC8_SetValue(PLUS);
+ 188              		.loc 1 48 0
+ 189 00e6 FF20     		movs	r0, #255
+ 190 00e8 FFF7FEFF 		bl	VDAC8_SetValue
+ 191              	.LVL25:
+  49:main.c        ****                 CyDelay(1000);
+ 192              		.loc 1 49 0
+ 193 00ec 4FF47A70 		mov	r0, #1000
+ 194 00f0 FFF7FEFF 		bl	CyDelay
+ 195              	.LVL26:
+ 196 00f4 0AE1     		b	.L4
+ 197              	.L6:
+  50:main.c        ****             }
+  51:main.c        ****             else if(signal[i] == 0 && signal[i+1] == 1 && signal[i+2] == 1)  //011
+ 198              		.loc 1 51 0
+ 199 00f6 2BBB     		cbnz	r3, .L7
+ 200              		.loc 1 51 0 is_stmt 0 discriminator 1
+ 201 00f8 511C     		adds	r1, r2, #1
+ 202 00fa 8748     		ldr	r0, .L17
+ 203 00fc 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 204 00fe 0129     		cmp	r1, #1
+ 205 0100 20D1     		bne	.L7
+ 206              		.loc 1 51 0 discriminator 2
+ 207 0102 911C     		adds	r1, r2, #2
+ 208 0104 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 209 0106 0129     		cmp	r1, #1
+ 210 0108 1CD1     		bne	.L7
+  52:main.c        ****             {
+  53:main.c        ****                 VDAC8_SetValue(MINUS);
+ 211              		.loc 1 53 0 is_stmt 1
+ 212 010a 0020     		movs	r0, #0
+ 213 010c FFF7FEFF 		bl	VDAC8_SetValue
+ 214              	.LVL27:
+  54:main.c        ****                 CyDelay(1000);
+ 215              		.loc 1 54 0
+ 216 0110 4FF47A70 		mov	r0, #1000
+ 217 0114 FFF7FEFF 		bl	CyDelay
+ 218              	.LVL28:
+  55:main.c        ****                 VDAC8_SetValue(PLUS);
+ 219              		.loc 1 55 0
+ 220 0118 FF20     		movs	r0, #255
+ 221 011a FFF7FEFF 		bl	VDAC8_SetValue
+ 222              	.LVL29:
+  56:main.c        ****                 CyDelay(1000);
+ 223              		.loc 1 56 0
+ 224 011e 4FF47A70 		mov	r0, #1000
+ 225 0122 FFF7FEFF 		bl	CyDelay
+ 226              	.LVL30:
+  57:main.c        ****                 VDAC8_SetValue(PLUS);
+ 227              		.loc 1 57 0
+ 228 0126 FF20     		movs	r0, #255
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 6
+
+
+ 229 0128 FFF7FEFF 		bl	VDAC8_SetValue
+ 230              	.LVL31:
+  58:main.c        ****                 CyDelay(1000);
+ 231              		.loc 1 58 0
+ 232 012c 4FF47A70 		mov	r0, #1000
+ 233 0130 FFF7FEFF 		bl	CyDelay
+ 234              	.LVL32:
+  59:main.c        ****                 VDAC8_SetValue(MINUS);
+ 235              		.loc 1 59 0
+ 236 0134 0020     		movs	r0, #0
+ 237 0136 FFF7FEFF 		bl	VDAC8_SetValue
+ 238              	.LVL33:
+  60:main.c        ****                 CyDelay(1000);
+ 239              		.loc 1 60 0
+ 240 013a 4FF47A70 		mov	r0, #1000
+ 241 013e FFF7FEFF 		bl	CyDelay
+ 242              	.LVL34:
+ 243 0142 E3E0     		b	.L4
+ 244              	.L7:
+  61:main.c        ****             }
+  62:main.c        ****             else if(signal[i] == 1 && signal[i+1] == 0 && signal[i+2] == 0)  //100
+ 245              		.loc 1 62 0
+ 246 0144 012B     		cmp	r3, #1
+ 247 0146 23D1     		bne	.L8
+ 248              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 249 0148 511C     		adds	r1, r2, #1
+ 250 014a 7348     		ldr	r0, .L17
+ 251 014c 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 252 014e F9B9     		cbnz	r1, .L8
+ 253              		.loc 1 62 0 discriminator 2
+ 254 0150 911C     		adds	r1, r2, #2
+ 255 0152 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 256 0154 E1B9     		cbnz	r1, .L8
+  63:main.c        ****             {
+  64:main.c        ****                 VDAC8_SetValue(PLUS);
+ 257              		.loc 1 64 0 is_stmt 1
+ 258 0156 FF20     		movs	r0, #255
+ 259 0158 FFF7FEFF 		bl	VDAC8_SetValue
+ 260              	.LVL35:
+  65:main.c        ****                 CyDelay(1000);
+ 261              		.loc 1 65 0
+ 262 015c 4FF47A70 		mov	r0, #1000
+ 263 0160 FFF7FEFF 		bl	CyDelay
+ 264              	.LVL36:
+  66:main.c        ****                 VDAC8_SetValue(MINUS);
+ 265              		.loc 1 66 0
+ 266 0164 0020     		movs	r0, #0
+ 267 0166 FFF7FEFF 		bl	VDAC8_SetValue
+ 268              	.LVL37:
+  67:main.c        ****                 CyDelay(1000);
+ 269              		.loc 1 67 0
+ 270 016a 4FF47A70 		mov	r0, #1000
+ 271 016e FFF7FEFF 		bl	CyDelay
+ 272              	.LVL38:
+  68:main.c        ****                 VDAC8_SetValue(PLUS);
+ 273              		.loc 1 68 0
+ 274 0172 FF20     		movs	r0, #255
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 7
+
+
+ 275 0174 FFF7FEFF 		bl	VDAC8_SetValue
+ 276              	.LVL39:
+  69:main.c        ****                 CyDelay(1000);
+ 277              		.loc 1 69 0
+ 278 0178 4FF47A70 		mov	r0, #1000
+ 279 017c FFF7FEFF 		bl	CyDelay
+ 280              	.LVL40:
+  70:main.c        ****                 VDAC8_SetValue(MINUS);
+ 281              		.loc 1 70 0
+ 282 0180 0020     		movs	r0, #0
+ 283 0182 FFF7FEFF 		bl	VDAC8_SetValue
+ 284              	.LVL41:
+  71:main.c        ****                 CyDelay(1000);
+ 285              		.loc 1 71 0
+ 286 0186 4FF47A70 		mov	r0, #1000
+ 287 018a FFF7FEFF 		bl	CyDelay
+ 288              	.LVL42:
+ 289 018e BDE0     		b	.L4
+ 290              	.L8:
+  72:main.c        ****             }
+  73:main.c        ****             else if(signal[i] == 1 && signal[i+1] == 0 && signal[i+2] == 1)  //101
+ 291              		.loc 1 73 0
+ 292 0190 012B     		cmp	r3, #1
+ 293 0192 24D1     		bne	.L9
+ 294              		.loc 1 73 0 is_stmt 0 discriminator 1
+ 295 0194 511C     		adds	r1, r2, #1
+ 296 0196 6048     		ldr	r0, .L17
+ 297 0198 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 298 019a 01BB     		cbnz	r1, .L9
+ 299              		.loc 1 73 0 discriminator 2
+ 300 019c 911C     		adds	r1, r2, #2
+ 301 019e 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 302 01a0 0129     		cmp	r1, #1
+ 303 01a2 1CD1     		bne	.L9
+  74:main.c        ****             {
+  75:main.c        ****                 VDAC8_SetValue(PLUS);
+ 304              		.loc 1 75 0 is_stmt 1
+ 305 01a4 FF20     		movs	r0, #255
+ 306 01a6 FFF7FEFF 		bl	VDAC8_SetValue
+ 307              	.LVL43:
+  76:main.c        ****                 CyDelay(1000);
+ 308              		.loc 1 76 0
+ 309 01aa 4FF47A70 		mov	r0, #1000
+ 310 01ae FFF7FEFF 		bl	CyDelay
+ 311              	.LVL44:
+  77:main.c        ****                 VDAC8_SetValue(PLUS);
+ 312              		.loc 1 77 0
+ 313 01b2 FF20     		movs	r0, #255
+ 314 01b4 FFF7FEFF 		bl	VDAC8_SetValue
+ 315              	.LVL45:
+  78:main.c        ****                 CyDelay(1000);
+ 316              		.loc 1 78 0
+ 317 01b8 4FF47A70 		mov	r0, #1000
+ 318 01bc FFF7FEFF 		bl	CyDelay
+ 319              	.LVL46:
+  79:main.c        ****                 VDAC8_SetValue(MINUS);
+ 320              		.loc 1 79 0
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 8
+
+
+ 321 01c0 0020     		movs	r0, #0
+ 322 01c2 FFF7FEFF 		bl	VDAC8_SetValue
+ 323              	.LVL47:
+  80:main.c        ****                 CyDelay(1000);
+ 324              		.loc 1 80 0
+ 325 01c6 4FF47A70 		mov	r0, #1000
+ 326 01ca FFF7FEFF 		bl	CyDelay
+ 327              	.LVL48:
+  81:main.c        ****                 VDAC8_SetValue(MINUS);
+ 328              		.loc 1 81 0
+ 329 01ce 0020     		movs	r0, #0
+ 330 01d0 FFF7FEFF 		bl	VDAC8_SetValue
+ 331              	.LVL49:
+  82:main.c        ****                 CyDelay(1000);
+ 332              		.loc 1 82 0
+ 333 01d4 4FF47A70 		mov	r0, #1000
+ 334 01d8 FFF7FEFF 		bl	CyDelay
+ 335              	.LVL50:
+ 336 01dc 96E0     		b	.L4
+ 337              	.L9:
+  83:main.c        ****             }
+  84:main.c        ****             else if(signal[i] == 1 && signal[i+1] == 1 && signal[i+2] == 0)  //110
+ 338              		.loc 1 84 0
+ 339 01de 012B     		cmp	r3, #1
+ 340 01e0 47D1     		bne	.L10
+ 341              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 342 01e2 511C     		adds	r1, r2, #1
+ 343 01e4 4C48     		ldr	r0, .L17
+ 344 01e6 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 345 01e8 0129     		cmp	r1, #1
+ 346 01ea 42D1     		bne	.L10
+ 347              		.loc 1 84 0 discriminator 2
+ 348 01ec 911C     		adds	r1, r2, #2
+ 349 01ee 415C     		ldrb	r1, [r0, r1]	@ zero_extendqisi2
+ 350 01f0 0029     		cmp	r1, #0
+ 351 01f2 3ED1     		bne	.L10
+  85:main.c        ****             {
+  86:main.c        ****                 if(RDS == 0)
+ 352              		.loc 1 86 0 is_stmt 1
+ 353 01f4 EDB9     		cbnz	r5, .L11
+  87:main.c        ****                 {
+  88:main.c        ****                     VDAC8_SetValue(PLUS);
+ 354              		.loc 1 88 0
+ 355 01f6 FF20     		movs	r0, #255
+ 356 01f8 FFF7FEFF 		bl	VDAC8_SetValue
+ 357              	.LVL51:
+  89:main.c        ****                     CyDelay(1000);
+ 358              		.loc 1 89 0
+ 359 01fc 4FF47A70 		mov	r0, #1000
+ 360 0200 FFF7FEFF 		bl	CyDelay
+ 361              	.LVL52:
+  90:main.c        ****                     VDAC8_SetValue(PLUS);
+ 362              		.loc 1 90 0
+ 363 0204 FF20     		movs	r0, #255
+ 364 0206 FFF7FEFF 		bl	VDAC8_SetValue
+ 365              	.LVL53:
+  91:main.c        ****                     CyDelay(1000);
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 9
+
+
+ 366              		.loc 1 91 0
+ 367 020a 4FF47A70 		mov	r0, #1000
+ 368 020e FFF7FEFF 		bl	CyDelay
+ 369              	.LVL54:
+  92:main.c        ****                     VDAC8_SetValue(MINUS);
+ 370              		.loc 1 92 0
+ 371 0212 0020     		movs	r0, #0
+ 372 0214 FFF7FEFF 		bl	VDAC8_SetValue
+ 373              	.LVL55:
+  93:main.c        ****                     CyDelay(1000);
+ 374              		.loc 1 93 0
+ 375 0218 4FF47A70 		mov	r0, #1000
+ 376 021c FFF7FEFF 		bl	CyDelay
+ 377              	.LVL56:
+  94:main.c        ****                     VDAC8_SetValue(PLUS);
+ 378              		.loc 1 94 0
+ 379 0220 FF20     		movs	r0, #255
+ 380 0222 FFF7FEFF 		bl	VDAC8_SetValue
+ 381              	.LVL57:
+  95:main.c        ****                     CyDelay(1000);
+ 382              		.loc 1 95 0
+ 383 0226 4FF47A70 		mov	r0, #1000
+ 384 022a FFF7FEFF 		bl	CyDelay
+ 385              	.LVL58:
+  96:main.c        ****                     RDS = 1;
+ 386              		.loc 1 96 0
+ 387 022e 0125     		movs	r5, #1
+ 388 0230 6CE0     		b	.L4
+ 389              	.LVL59:
+ 390              	.L11:
+  97:main.c        ****                 }
+  98:main.c        ****                 else if(RDS == 1)
+ 391              		.loc 1 98 0
+ 392 0232 002D     		cmp	r5, #0
+ 393 0234 6AD0     		beq	.L4
+  99:main.c        ****                 {
+ 100:main.c        ****                     VDAC8_SetValue(MINUS);
+ 394              		.loc 1 100 0
+ 395 0236 0020     		movs	r0, #0
+ 396 0238 FFF7FEFF 		bl	VDAC8_SetValue
+ 397              	.LVL60:
+ 101:main.c        ****                     CyDelay(1000);
+ 398              		.loc 1 101 0
+ 399 023c 4FF47A70 		mov	r0, #1000
+ 400 0240 FFF7FEFF 		bl	CyDelay
+ 401              	.LVL61:
+ 102:main.c        ****                     VDAC8_SetValue(MINUS);
+ 402              		.loc 1 102 0
+ 403 0244 0020     		movs	r0, #0
+ 404 0246 FFF7FEFF 		bl	VDAC8_SetValue
+ 405              	.LVL62:
+ 103:main.c        ****                     CyDelay(1000);
+ 406              		.loc 1 103 0
+ 407 024a 4FF47A70 		mov	r0, #1000
+ 408 024e FFF7FEFF 		bl	CyDelay
+ 409              	.LVL63:
+ 104:main.c        ****                     VDAC8_SetValue(PLUS);
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 10
+
+
+ 410              		.loc 1 104 0
+ 411 0252 FF20     		movs	r0, #255
+ 412 0254 FFF7FEFF 		bl	VDAC8_SetValue
+ 413              	.LVL64:
+ 105:main.c        ****                     CyDelay(1000);
+ 414              		.loc 1 105 0
+ 415 0258 4FF47A70 		mov	r0, #1000
+ 416 025c FFF7FEFF 		bl	CyDelay
+ 417              	.LVL65:
+ 106:main.c        ****                     VDAC8_SetValue(MINUS);
+ 418              		.loc 1 106 0
+ 419 0260 0020     		movs	r0, #0
+ 420 0262 FFF7FEFF 		bl	VDAC8_SetValue
+ 421              	.LVL66:
+ 107:main.c        ****                     CyDelay(1000);
+ 422              		.loc 1 107 0
+ 423 0266 4FF47A70 		mov	r0, #1000
+ 424 026a FFF7FEFF 		bl	CyDelay
+ 425              	.LVL67:
+ 108:main.c        ****                     RDS = 0;
+ 426              		.loc 1 108 0
+ 427 026e 0025     		movs	r5, #0
+ 428 0270 4CE0     		b	.L4
+ 429              	.LVL68:
+ 430              	.L10:
+ 109:main.c        ****                 }
+ 110:main.c        ****             }
+ 111:main.c        ****             else if(signal[i] == 1 && signal[i+1] == 1 && signal[i+2] == 1)  //111
+ 431              		.loc 1 111 0
+ 432 0272 012B     		cmp	r3, #1
+ 433 0274 4AD1     		bne	.L4
+ 434              		.loc 1 111 0 is_stmt 0 discriminator 1
+ 435 0276 531C     		adds	r3, r2, #1
+ 436 0278 2749     		ldr	r1, .L17
+ 437 027a CB5C     		ldrb	r3, [r1, r3]	@ zero_extendqisi2
+ 438 027c 012B     		cmp	r3, #1
+ 439 027e 45D1     		bne	.L4
+ 440              		.loc 1 111 0 discriminator 2
+ 441 0280 0232     		adds	r2, r2, #2
+ 442 0282 8B5C     		ldrb	r3, [r1, r2]	@ zero_extendqisi2
+ 443 0284 012B     		cmp	r3, #1
+ 444 0286 41D1     		bne	.L4
+ 112:main.c        ****             {
+ 113:main.c        ****                 if(RDS == 0)
+ 445              		.loc 1 113 0 is_stmt 1
+ 446 0288 EDB9     		cbnz	r5, .L12
+ 114:main.c        ****                 {
+ 115:main.c        ****                     VDAC8_SetValue(PLUS);
+ 447              		.loc 1 115 0
+ 448 028a FF20     		movs	r0, #255
+ 449 028c FFF7FEFF 		bl	VDAC8_SetValue
+ 450              	.LVL69:
+ 116:main.c        ****                     CyDelay(1000);
+ 451              		.loc 1 116 0
+ 452 0290 4FF47A70 		mov	r0, #1000
+ 453 0294 FFF7FEFF 		bl	CyDelay
+ 454              	.LVL70:
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 11
+
+
+ 117:main.c        ****                     VDAC8_SetValue(MINUS);
+ 455              		.loc 1 117 0
+ 456 0298 0020     		movs	r0, #0
+ 457 029a FFF7FEFF 		bl	VDAC8_SetValue
+ 458              	.LVL71:
+ 118:main.c        ****                     CyDelay(1000);
+ 459              		.loc 1 118 0
+ 460 029e 4FF47A70 		mov	r0, #1000
+ 461 02a2 FFF7FEFF 		bl	CyDelay
+ 462              	.LVL72:
+ 119:main.c        ****                     VDAC8_SetValue(PLUS);
+ 463              		.loc 1 119 0
+ 464 02a6 FF20     		movs	r0, #255
+ 465 02a8 FFF7FEFF 		bl	VDAC8_SetValue
+ 466              	.LVL73:
+ 120:main.c        ****                     CyDelay(1000);
+ 467              		.loc 1 120 0
+ 468 02ac 4FF47A70 		mov	r0, #1000
+ 469 02b0 FFF7FEFF 		bl	CyDelay
+ 470              	.LVL74:
+ 121:main.c        ****                     VDAC8_SetValue(PLUS);
+ 471              		.loc 1 121 0
+ 472 02b4 FF20     		movs	r0, #255
+ 473 02b6 FFF7FEFF 		bl	VDAC8_SetValue
+ 474              	.LVL75:
+ 122:main.c        ****                     CyDelay(1000);
+ 475              		.loc 1 122 0
+ 476 02ba 4FF47A70 		mov	r0, #1000
+ 477 02be FFF7FEFF 		bl	CyDelay
+ 478              	.LVL76:
+ 123:main.c        ****                     RDS = 1;
+ 479              		.loc 1 123 0
+ 480 02c2 0125     		movs	r5, #1
+ 481 02c4 22E0     		b	.L4
+ 482              	.LVL77:
+ 483              	.L12:
+ 124:main.c        ****                 }
+ 125:main.c        ****                 else if(RDS == 1)
+ 484              		.loc 1 125 0
+ 485 02c6 EDB1     		cbz	r5, .L13
+ 126:main.c        ****                 {
+ 127:main.c        ****                     VDAC8_SetValue(MINUS);
+ 486              		.loc 1 127 0
+ 487 02c8 0020     		movs	r0, #0
+ 488 02ca FFF7FEFF 		bl	VDAC8_SetValue
+ 489              	.LVL78:
+ 128:main.c        ****                     CyDelay(1000);
+ 490              		.loc 1 128 0
+ 491 02ce 4FF47A70 		mov	r0, #1000
+ 492 02d2 FFF7FEFF 		bl	CyDelay
+ 493              	.LVL79:
+ 129:main.c        ****                     VDAC8_SetValue(PLUS);
+ 494              		.loc 1 129 0
+ 495 02d6 FF20     		movs	r0, #255
+ 496 02d8 FFF7FEFF 		bl	VDAC8_SetValue
+ 497              	.LVL80:
+ 130:main.c        ****                     CyDelay(1000);
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 12
+
+
+ 498              		.loc 1 130 0
+ 499 02dc 4FF47A70 		mov	r0, #1000
+ 500 02e0 FFF7FEFF 		bl	CyDelay
+ 501              	.LVL81:
+ 131:main.c        ****                     VDAC8_SetValue(MINUS);
+ 502              		.loc 1 131 0
+ 503 02e4 0020     		movs	r0, #0
+ 504 02e6 FFF7FEFF 		bl	VDAC8_SetValue
+ 505              	.LVL82:
+ 132:main.c        ****                     CyDelay(1000);
+ 506              		.loc 1 132 0
+ 507 02ea 4FF47A70 		mov	r0, #1000
+ 508 02ee FFF7FEFF 		bl	CyDelay
+ 509              	.LVL83:
+ 133:main.c        ****                     VDAC8_SetValue(MINUS);
+ 510              		.loc 1 133 0
+ 511 02f2 0020     		movs	r0, #0
+ 512 02f4 FFF7FEFF 		bl	VDAC8_SetValue
+ 513              	.LVL84:
+ 134:main.c        ****                     CyDelay(1000);
+ 514              		.loc 1 134 0
+ 515 02f8 4FF47A70 		mov	r0, #1000
+ 516 02fc FFF7FEFF 		bl	CyDelay
+ 517              	.LVL85:
+ 135:main.c        ****                     RDS = 0;
+ 518              		.loc 1 135 0
+ 519 0300 0025     		movs	r5, #0
+ 520 0302 03E0     		b	.L4
+ 521              	.LVL86:
+ 522              	.L13:
+ 136:main.c        ****                 }
+ 137:main.c        ****                 else
+ 138:main.c        ****                 {
+ 139:main.c        ****                     CyDelay(3000);
+ 523              		.loc 1 139 0
+ 524 0304 40F6B830 		movw	r0, #3000
+ 525 0308 FFF7FEFF 		bl	CyDelay
+ 526              	.LVL87:
+ 527              	.L4:
+  16:main.c        ****         {
+ 528              		.loc 1 16 0 discriminator 2
+ 529 030c 0334     		adds	r4, r4, #3
+ 530              	.LVL88:
+ 531 030e E4B2     		uxtb	r4, r4
+ 532              	.LVL89:
+ 533              	.L2:
+  16:main.c        ****         {
+ 534              		.loc 1 16 0 is_stmt 0 discriminator 1
+ 535 0310 0B2C     		cmp	r4, #11
+ 536 0312 7FF67CAE 		bls	.L14
+ 537 0316 78E6     		b	.L15
+ 538              	.L18:
+ 539              		.align	2
+ 540              	.L17:
+ 541 0318 00000000 		.word	.LANCHOR0
+ 542              	.LBE2:
+ 543              		.cfi_endproc
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 13
+
+
+ 544              	.LFE63:
+ 545              		.size	main, .-main
+ 546              		.global	signal
+ 547              		.data
+ 548              		.align	2
+ 549              		.set	.LANCHOR0,. + 0
+ 550              		.type	signal, %object
+ 551              		.size	signal, 12
+ 552              	signal:
+ 553 0000 01       		.byte	1
+ 554 0001 00       		.byte	0
+ 555 0002 01       		.byte	1
+ 556 0003 01       		.byte	1
+ 557 0004 00       		.byte	0
+ 558 0005 00       		.byte	0
+ 559 0006 00       		.byte	0
+ 560 0007 00       		.byte	0
+ 561 0008 01       		.byte	1
+ 562 0009 00       		.byte	0
+ 563 000a 01       		.byte	1
+ 564 000b 00       		.byte	0
+ 565              		.text
+ 566              	.Letext0:
+ 567              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 568              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 569              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 570              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 571              		.file 6 "Generated_Source\\PSoC5/VDAC8.h"
+ 572              		.file 7 "Generated_Source\\PSoC5/CyLib.h"
+ 573              		.section	.debug_info,"",%progbits
+ 574              	.Ldebug_info0:
+ 575 0000 B2070000 		.4byte	0x7b2
+ 576 0004 0400     		.2byte	0x4
+ 577 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 578 000a 04       		.byte	0x4
+ 579 000b 01       		.uleb128 0x1
+ 580 000c 48000000 		.4byte	.LASF22
+ 581 0010 0C       		.byte	0xc
+ 582 0011 2E000000 		.4byte	.LASF23
+ 583 0015 D6000000 		.4byte	.LASF24
+ 584 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 585 001d 00000000 		.4byte	0
+ 586 0021 00000000 		.4byte	.Ldebug_line0
+ 587 0025 02       		.uleb128 0x2
+ 588 0026 01       		.byte	0x1
+ 589 0027 06       		.byte	0x6
+ 590 0028 3C000000 		.4byte	.LASF0
+ 591 002c 02       		.uleb128 0x2
+ 592 002d 01       		.byte	0x1
+ 593 002e 08       		.byte	0x8
+ 594 002f 4C010000 		.4byte	.LASF1
+ 595 0033 02       		.uleb128 0x2
+ 596 0034 02       		.byte	0x2
+ 597 0035 05       		.byte	0x5
+ 598 0036 A4010000 		.4byte	.LASF2
+ 599 003a 02       		.uleb128 0x2
+ 600 003b 02       		.byte	0x2
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 14
+
+
+ 601 003c 07       		.byte	0x7
+ 602 003d 0E000000 		.4byte	.LASF3
+ 603 0041 03       		.uleb128 0x3
+ 604 0042 94010000 		.4byte	.LASF9
+ 605 0046 02       		.byte	0x2
+ 606 0047 3F       		.byte	0x3f
+ 607 0048 4C000000 		.4byte	0x4c
+ 608 004c 02       		.uleb128 0x2
+ 609 004d 04       		.byte	0x4
+ 610 004e 05       		.byte	0x5
+ 611 004f 5F010000 		.4byte	.LASF4
+ 612 0053 02       		.uleb128 0x2
+ 613 0054 04       		.byte	0x4
+ 614 0055 07       		.byte	0x7
+ 615 0056 1E010000 		.4byte	.LASF5
+ 616 005a 02       		.uleb128 0x2
+ 617 005b 08       		.byte	0x8
+ 618 005c 05       		.byte	0x5
+ 619 005d 00000000 		.4byte	.LASF6
+ 620 0061 02       		.uleb128 0x2
+ 621 0062 08       		.byte	0x8
+ 622 0063 07       		.byte	0x7
+ 623 0064 30010000 		.4byte	.LASF7
+ 624 0068 04       		.uleb128 0x4
+ 625 0069 04       		.byte	0x4
+ 626 006a 05       		.byte	0x5
+ 627 006b 696E7400 		.ascii	"int\000"
+ 628 006f 02       		.uleb128 0x2
+ 629 0070 04       		.byte	0x4
+ 630 0071 07       		.byte	0x7
+ 631 0072 21000000 		.4byte	.LASF8
+ 632 0076 03       		.uleb128 0x3
+ 633 0077 AE010000 		.4byte	.LASF10
+ 634 007b 03       		.byte	0x3
+ 635 007c 2C       		.byte	0x2c
+ 636 007d 41000000 		.4byte	0x41
+ 637 0081 05       		.uleb128 0x5
+ 638 0082 18010000 		.4byte	.LASF11
+ 639 0086 04       		.byte	0x4
+ 640 0087 E801     		.2byte	0x1e8
+ 641 0089 2C000000 		.4byte	0x2c
+ 642 008d 02       		.uleb128 0x2
+ 643 008e 04       		.byte	0x4
+ 644 008f 04       		.byte	0x4
+ 645 0090 9E010000 		.4byte	.LASF12
+ 646 0094 02       		.uleb128 0x2
+ 647 0095 08       		.byte	0x8
+ 648 0096 04       		.byte	0x4
+ 649 0097 68010000 		.4byte	.LASF13
+ 650 009b 02       		.uleb128 0x2
+ 651 009c 01       		.byte	0x1
+ 652 009d 08       		.byte	0x8
+ 653 009e 5A010000 		.4byte	.LASF14
+ 654 00a2 02       		.uleb128 0x2
+ 655 00a3 04       		.byte	0x4
+ 656 00a4 07       		.byte	0x7
+ 657 00a5 C5010000 		.4byte	.LASF15
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 15
+
+
+ 658 00a9 02       		.uleb128 0x2
+ 659 00aa 08       		.byte	0x8
+ 660 00ab 04       		.byte	0x4
+ 661 00ac 7C010000 		.4byte	.LASF16
+ 662 00b0 06       		.uleb128 0x6
+ 663 00b1 47010000 		.4byte	.LASF25
+ 664 00b5 01       		.byte	0x1
+ 665 00b6 07       		.byte	0x7
+ 666 00b7 68000000 		.4byte	0x68
+ 667 00bb 00000000 		.4byte	.LFB63
+ 668 00bf 1C030000 		.4byte	.LFE63-.LFB63
+ 669 00c3 01       		.uleb128 0x1
+ 670 00c4 9C       		.byte	0x9c
+ 671 00c5 62070000 		.4byte	0x762
+ 672 00c9 07       		.uleb128 0x7
+ 673 00ca 52445300 		.ascii	"RDS\000"
+ 674 00ce 01       		.byte	0x1
+ 675 00cf 0D       		.byte	0xd
+ 676 00d0 81000000 		.4byte	0x81
+ 677 00d4 00000000 		.4byte	.LLST0
+ 678 00d8 08       		.uleb128 0x8
+ 679 00d9 0A000000 		.4byte	.LBB2
+ 680 00dd 12030000 		.4byte	.LBE2-.LBB2
+ 681 00e1 58070000 		.4byte	0x758
+ 682 00e5 07       		.uleb128 0x7
+ 683 00e6 6900     		.ascii	"i\000"
+ 684 00e8 01       		.byte	0x1
+ 685 00e9 10       		.byte	0x10
+ 686 00ea 81000000 		.4byte	0x81
+ 687 00ee 7B000000 		.4byte	.LLST1
+ 688 00f2 09       		.uleb128 0x9
+ 689 00f3 2A000000 		.4byte	.LVL3
+ 690 00f7 94070000 		.4byte	0x794
+ 691 00fb 05010000 		.4byte	0x105
+ 692 00ff 0A       		.uleb128 0xa
+ 693 0100 01       		.uleb128 0x1
+ 694 0101 50       		.byte	0x50
+ 695 0102 01       		.uleb128 0x1
+ 696 0103 30       		.byte	0x30
+ 697 0104 00       		.byte	0
+ 698 0105 09       		.uleb128 0x9
+ 699 0106 32000000 		.4byte	.LVL4
+ 700 010a 9F070000 		.4byte	0x79f
+ 701 010e 1A010000 		.4byte	0x11a
+ 702 0112 0A       		.uleb128 0xa
+ 703 0113 01       		.uleb128 0x1
+ 704 0114 50       		.byte	0x50
+ 705 0115 03       		.uleb128 0x3
+ 706 0116 0A       		.byte	0xa
+ 707 0117 E803     		.2byte	0x3e8
+ 708 0119 00       		.byte	0
+ 709 011a 09       		.uleb128 0x9
+ 710 011b 38000000 		.4byte	.LVL5
+ 711 011f 94070000 		.4byte	0x794
+ 712 0123 2D010000 		.4byte	0x12d
+ 713 0127 0A       		.uleb128 0xa
+ 714 0128 01       		.uleb128 0x1
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 16
+
+
+ 715 0129 50       		.byte	0x50
+ 716 012a 01       		.uleb128 0x1
+ 717 012b 30       		.byte	0x30
+ 718 012c 00       		.byte	0
+ 719 012d 09       		.uleb128 0x9
+ 720 012e 40000000 		.4byte	.LVL6
+ 721 0132 9F070000 		.4byte	0x79f
+ 722 0136 42010000 		.4byte	0x142
+ 723 013a 0A       		.uleb128 0xa
+ 724 013b 01       		.uleb128 0x1
+ 725 013c 50       		.byte	0x50
+ 726 013d 03       		.uleb128 0x3
+ 727 013e 0A       		.byte	0xa
+ 728 013f E803     		.2byte	0x3e8
+ 729 0141 00       		.byte	0
+ 730 0142 09       		.uleb128 0x9
+ 731 0143 46000000 		.4byte	.LVL7
+ 732 0147 94070000 		.4byte	0x794
+ 733 014b 56010000 		.4byte	0x156
+ 734 014f 0A       		.uleb128 0xa
+ 735 0150 01       		.uleb128 0x1
+ 736 0151 50       		.byte	0x50
+ 737 0152 02       		.uleb128 0x2
+ 738 0153 09       		.byte	0x9
+ 739 0154 FF       		.byte	0xff
+ 740 0155 00       		.byte	0
+ 741 0156 09       		.uleb128 0x9
+ 742 0157 4E000000 		.4byte	.LVL8
+ 743 015b 9F070000 		.4byte	0x79f
+ 744 015f 6B010000 		.4byte	0x16b
+ 745 0163 0A       		.uleb128 0xa
+ 746 0164 01       		.uleb128 0x1
+ 747 0165 50       		.byte	0x50
+ 748 0166 03       		.uleb128 0x3
+ 749 0167 0A       		.byte	0xa
+ 750 0168 E803     		.2byte	0x3e8
+ 751 016a 00       		.byte	0
+ 752 016b 09       		.uleb128 0x9
+ 753 016c 54000000 		.4byte	.LVL9
+ 754 0170 94070000 		.4byte	0x794
+ 755 0174 7F010000 		.4byte	0x17f
+ 756 0178 0A       		.uleb128 0xa
+ 757 0179 01       		.uleb128 0x1
+ 758 017a 50       		.byte	0x50
+ 759 017b 02       		.uleb128 0x2
+ 760 017c 09       		.byte	0x9
+ 761 017d FF       		.byte	0xff
+ 762 017e 00       		.byte	0
+ 763 017f 09       		.uleb128 0x9
+ 764 0180 5C000000 		.4byte	.LVL10
+ 765 0184 9F070000 		.4byte	0x79f
+ 766 0188 94010000 		.4byte	0x194
+ 767 018c 0A       		.uleb128 0xa
+ 768 018d 01       		.uleb128 0x1
+ 769 018e 50       		.byte	0x50
+ 770 018f 03       		.uleb128 0x3
+ 771 0190 0A       		.byte	0xa
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 17
+
+
+ 772 0191 E803     		.2byte	0x3e8
+ 773 0193 00       		.byte	0
+ 774 0194 09       		.uleb128 0x9
+ 775 0195 76000000 		.4byte	.LVL11
+ 776 0199 94070000 		.4byte	0x794
+ 777 019d A7010000 		.4byte	0x1a7
+ 778 01a1 0A       		.uleb128 0xa
+ 779 01a2 01       		.uleb128 0x1
+ 780 01a3 50       		.byte	0x50
+ 781 01a4 01       		.uleb128 0x1
+ 782 01a5 30       		.byte	0x30
+ 783 01a6 00       		.byte	0
+ 784 01a7 09       		.uleb128 0x9
+ 785 01a8 7E000000 		.4byte	.LVL12
+ 786 01ac 9F070000 		.4byte	0x79f
+ 787 01b0 BC010000 		.4byte	0x1bc
+ 788 01b4 0A       		.uleb128 0xa
+ 789 01b5 01       		.uleb128 0x1
+ 790 01b6 50       		.byte	0x50
+ 791 01b7 03       		.uleb128 0x3
+ 792 01b8 0A       		.byte	0xa
+ 793 01b9 E803     		.2byte	0x3e8
+ 794 01bb 00       		.byte	0
+ 795 01bc 09       		.uleb128 0x9
+ 796 01bd 84000000 		.4byte	.LVL13
+ 797 01c1 94070000 		.4byte	0x794
+ 798 01c5 D0010000 		.4byte	0x1d0
+ 799 01c9 0A       		.uleb128 0xa
+ 800 01ca 01       		.uleb128 0x1
+ 801 01cb 50       		.byte	0x50
+ 802 01cc 02       		.uleb128 0x2
+ 803 01cd 09       		.byte	0x9
+ 804 01ce FF       		.byte	0xff
+ 805 01cf 00       		.byte	0
+ 806 01d0 09       		.uleb128 0x9
+ 807 01d1 8C000000 		.4byte	.LVL14
+ 808 01d5 9F070000 		.4byte	0x79f
+ 809 01d9 E5010000 		.4byte	0x1e5
+ 810 01dd 0A       		.uleb128 0xa
+ 811 01de 01       		.uleb128 0x1
+ 812 01df 50       		.byte	0x50
+ 813 01e0 03       		.uleb128 0x3
+ 814 01e1 0A       		.byte	0xa
+ 815 01e2 E803     		.2byte	0x3e8
+ 816 01e4 00       		.byte	0
+ 817 01e5 09       		.uleb128 0x9
+ 818 01e6 92000000 		.4byte	.LVL15
+ 819 01ea 94070000 		.4byte	0x794
+ 820 01ee F8010000 		.4byte	0x1f8
+ 821 01f2 0A       		.uleb128 0xa
+ 822 01f3 01       		.uleb128 0x1
+ 823 01f4 50       		.byte	0x50
+ 824 01f5 01       		.uleb128 0x1
+ 825 01f6 30       		.byte	0x30
+ 826 01f7 00       		.byte	0
+ 827 01f8 09       		.uleb128 0x9
+ 828 01f9 9A000000 		.4byte	.LVL16
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 18
+
+
+ 829 01fd 9F070000 		.4byte	0x79f
+ 830 0201 0D020000 		.4byte	0x20d
+ 831 0205 0A       		.uleb128 0xa
+ 832 0206 01       		.uleb128 0x1
+ 833 0207 50       		.byte	0x50
+ 834 0208 03       		.uleb128 0x3
+ 835 0209 0A       		.byte	0xa
+ 836 020a E803     		.2byte	0x3e8
+ 837 020c 00       		.byte	0
+ 838 020d 09       		.uleb128 0x9
+ 839 020e A0000000 		.4byte	.LVL17
+ 840 0212 94070000 		.4byte	0x794
+ 841 0216 21020000 		.4byte	0x221
+ 842 021a 0A       		.uleb128 0xa
+ 843 021b 01       		.uleb128 0x1
+ 844 021c 50       		.byte	0x50
+ 845 021d 02       		.uleb128 0x2
+ 846 021e 09       		.byte	0x9
+ 847 021f FF       		.byte	0xff
+ 848 0220 00       		.byte	0
+ 849 0221 09       		.uleb128 0x9
+ 850 0222 A8000000 		.4byte	.LVL18
+ 851 0226 9F070000 		.4byte	0x79f
+ 852 022a 36020000 		.4byte	0x236
+ 853 022e 0A       		.uleb128 0xa
+ 854 022f 01       		.uleb128 0x1
+ 855 0230 50       		.byte	0x50
+ 856 0231 03       		.uleb128 0x3
+ 857 0232 0A       		.byte	0xa
+ 858 0233 E803     		.2byte	0x3e8
+ 859 0235 00       		.byte	0
+ 860 0236 09       		.uleb128 0x9
+ 861 0237 C2000000 		.4byte	.LVL19
+ 862 023b 94070000 		.4byte	0x794
+ 863 023f 4A020000 		.4byte	0x24a
+ 864 0243 0A       		.uleb128 0xa
+ 865 0244 01       		.uleb128 0x1
+ 866 0245 50       		.byte	0x50
+ 867 0246 02       		.uleb128 0x2
+ 868 0247 09       		.byte	0x9
+ 869 0248 FF       		.byte	0xff
+ 870 0249 00       		.byte	0
+ 871 024a 09       		.uleb128 0x9
+ 872 024b CA000000 		.4byte	.LVL20
+ 873 024f 9F070000 		.4byte	0x79f
+ 874 0253 5F020000 		.4byte	0x25f
+ 875 0257 0A       		.uleb128 0xa
+ 876 0258 01       		.uleb128 0x1
+ 877 0259 50       		.byte	0x50
+ 878 025a 03       		.uleb128 0x3
+ 879 025b 0A       		.byte	0xa
+ 880 025c E803     		.2byte	0x3e8
+ 881 025e 00       		.byte	0
+ 882 025f 09       		.uleb128 0x9
+ 883 0260 D0000000 		.4byte	.LVL21
+ 884 0264 94070000 		.4byte	0x794
+ 885 0268 72020000 		.4byte	0x272
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 19
+
+
+ 886 026c 0A       		.uleb128 0xa
+ 887 026d 01       		.uleb128 0x1
+ 888 026e 50       		.byte	0x50
+ 889 026f 01       		.uleb128 0x1
+ 890 0270 30       		.byte	0x30
+ 891 0271 00       		.byte	0
+ 892 0272 09       		.uleb128 0x9
+ 893 0273 D8000000 		.4byte	.LVL22
+ 894 0277 9F070000 		.4byte	0x79f
+ 895 027b 87020000 		.4byte	0x287
+ 896 027f 0A       		.uleb128 0xa
+ 897 0280 01       		.uleb128 0x1
+ 898 0281 50       		.byte	0x50
+ 899 0282 03       		.uleb128 0x3
+ 900 0283 0A       		.byte	0xa
+ 901 0284 E803     		.2byte	0x3e8
+ 902 0286 00       		.byte	0
+ 903 0287 09       		.uleb128 0x9
+ 904 0288 DE000000 		.4byte	.LVL23
+ 905 028c 94070000 		.4byte	0x794
+ 906 0290 9A020000 		.4byte	0x29a
+ 907 0294 0A       		.uleb128 0xa
+ 908 0295 01       		.uleb128 0x1
+ 909 0296 50       		.byte	0x50
+ 910 0297 01       		.uleb128 0x1
+ 911 0298 30       		.byte	0x30
+ 912 0299 00       		.byte	0
+ 913 029a 09       		.uleb128 0x9
+ 914 029b E6000000 		.4byte	.LVL24
+ 915 029f 9F070000 		.4byte	0x79f
+ 916 02a3 AF020000 		.4byte	0x2af
+ 917 02a7 0A       		.uleb128 0xa
+ 918 02a8 01       		.uleb128 0x1
+ 919 02a9 50       		.byte	0x50
+ 920 02aa 03       		.uleb128 0x3
+ 921 02ab 0A       		.byte	0xa
+ 922 02ac E803     		.2byte	0x3e8
+ 923 02ae 00       		.byte	0
+ 924 02af 09       		.uleb128 0x9
+ 925 02b0 EC000000 		.4byte	.LVL25
+ 926 02b4 94070000 		.4byte	0x794
+ 927 02b8 C3020000 		.4byte	0x2c3
+ 928 02bc 0A       		.uleb128 0xa
+ 929 02bd 01       		.uleb128 0x1
+ 930 02be 50       		.byte	0x50
+ 931 02bf 02       		.uleb128 0x2
+ 932 02c0 09       		.byte	0x9
+ 933 02c1 FF       		.byte	0xff
+ 934 02c2 00       		.byte	0
+ 935 02c3 09       		.uleb128 0x9
+ 936 02c4 F4000000 		.4byte	.LVL26
+ 937 02c8 9F070000 		.4byte	0x79f
+ 938 02cc D8020000 		.4byte	0x2d8
+ 939 02d0 0A       		.uleb128 0xa
+ 940 02d1 01       		.uleb128 0x1
+ 941 02d2 50       		.byte	0x50
+ 942 02d3 03       		.uleb128 0x3
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 20
+
+
+ 943 02d4 0A       		.byte	0xa
+ 944 02d5 E803     		.2byte	0x3e8
+ 945 02d7 00       		.byte	0
+ 946 02d8 09       		.uleb128 0x9
+ 947 02d9 10010000 		.4byte	.LVL27
+ 948 02dd 94070000 		.4byte	0x794
+ 949 02e1 EB020000 		.4byte	0x2eb
+ 950 02e5 0A       		.uleb128 0xa
+ 951 02e6 01       		.uleb128 0x1
+ 952 02e7 50       		.byte	0x50
+ 953 02e8 01       		.uleb128 0x1
+ 954 02e9 30       		.byte	0x30
+ 955 02ea 00       		.byte	0
+ 956 02eb 09       		.uleb128 0x9
+ 957 02ec 18010000 		.4byte	.LVL28
+ 958 02f0 9F070000 		.4byte	0x79f
+ 959 02f4 00030000 		.4byte	0x300
+ 960 02f8 0A       		.uleb128 0xa
+ 961 02f9 01       		.uleb128 0x1
+ 962 02fa 50       		.byte	0x50
+ 963 02fb 03       		.uleb128 0x3
+ 964 02fc 0A       		.byte	0xa
+ 965 02fd E803     		.2byte	0x3e8
+ 966 02ff 00       		.byte	0
+ 967 0300 09       		.uleb128 0x9
+ 968 0301 1E010000 		.4byte	.LVL29
+ 969 0305 94070000 		.4byte	0x794
+ 970 0309 14030000 		.4byte	0x314
+ 971 030d 0A       		.uleb128 0xa
+ 972 030e 01       		.uleb128 0x1
+ 973 030f 50       		.byte	0x50
+ 974 0310 02       		.uleb128 0x2
+ 975 0311 09       		.byte	0x9
+ 976 0312 FF       		.byte	0xff
+ 977 0313 00       		.byte	0
+ 978 0314 09       		.uleb128 0x9
+ 979 0315 26010000 		.4byte	.LVL30
+ 980 0319 9F070000 		.4byte	0x79f
+ 981 031d 29030000 		.4byte	0x329
+ 982 0321 0A       		.uleb128 0xa
+ 983 0322 01       		.uleb128 0x1
+ 984 0323 50       		.byte	0x50
+ 985 0324 03       		.uleb128 0x3
+ 986 0325 0A       		.byte	0xa
+ 987 0326 E803     		.2byte	0x3e8
+ 988 0328 00       		.byte	0
+ 989 0329 09       		.uleb128 0x9
+ 990 032a 2C010000 		.4byte	.LVL31
+ 991 032e 94070000 		.4byte	0x794
+ 992 0332 3D030000 		.4byte	0x33d
+ 993 0336 0A       		.uleb128 0xa
+ 994 0337 01       		.uleb128 0x1
+ 995 0338 50       		.byte	0x50
+ 996 0339 02       		.uleb128 0x2
+ 997 033a 09       		.byte	0x9
+ 998 033b FF       		.byte	0xff
+ 999 033c 00       		.byte	0
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 21
+
+
+ 1000 033d 09       		.uleb128 0x9
+ 1001 033e 34010000 		.4byte	.LVL32
+ 1002 0342 9F070000 		.4byte	0x79f
+ 1003 0346 52030000 		.4byte	0x352
+ 1004 034a 0A       		.uleb128 0xa
+ 1005 034b 01       		.uleb128 0x1
+ 1006 034c 50       		.byte	0x50
+ 1007 034d 03       		.uleb128 0x3
+ 1008 034e 0A       		.byte	0xa
+ 1009 034f E803     		.2byte	0x3e8
+ 1010 0351 00       		.byte	0
+ 1011 0352 09       		.uleb128 0x9
+ 1012 0353 3A010000 		.4byte	.LVL33
+ 1013 0357 94070000 		.4byte	0x794
+ 1014 035b 65030000 		.4byte	0x365
+ 1015 035f 0A       		.uleb128 0xa
+ 1016 0360 01       		.uleb128 0x1
+ 1017 0361 50       		.byte	0x50
+ 1018 0362 01       		.uleb128 0x1
+ 1019 0363 30       		.byte	0x30
+ 1020 0364 00       		.byte	0
+ 1021 0365 09       		.uleb128 0x9
+ 1022 0366 42010000 		.4byte	.LVL34
+ 1023 036a 9F070000 		.4byte	0x79f
+ 1024 036e 7A030000 		.4byte	0x37a
+ 1025 0372 0A       		.uleb128 0xa
+ 1026 0373 01       		.uleb128 0x1
+ 1027 0374 50       		.byte	0x50
+ 1028 0375 03       		.uleb128 0x3
+ 1029 0376 0A       		.byte	0xa
+ 1030 0377 E803     		.2byte	0x3e8
+ 1031 0379 00       		.byte	0
+ 1032 037a 09       		.uleb128 0x9
+ 1033 037b 5C010000 		.4byte	.LVL35
+ 1034 037f 94070000 		.4byte	0x794
+ 1035 0383 8E030000 		.4byte	0x38e
+ 1036 0387 0A       		.uleb128 0xa
+ 1037 0388 01       		.uleb128 0x1
+ 1038 0389 50       		.byte	0x50
+ 1039 038a 02       		.uleb128 0x2
+ 1040 038b 09       		.byte	0x9
+ 1041 038c FF       		.byte	0xff
+ 1042 038d 00       		.byte	0
+ 1043 038e 09       		.uleb128 0x9
+ 1044 038f 64010000 		.4byte	.LVL36
+ 1045 0393 9F070000 		.4byte	0x79f
+ 1046 0397 A3030000 		.4byte	0x3a3
+ 1047 039b 0A       		.uleb128 0xa
+ 1048 039c 01       		.uleb128 0x1
+ 1049 039d 50       		.byte	0x50
+ 1050 039e 03       		.uleb128 0x3
+ 1051 039f 0A       		.byte	0xa
+ 1052 03a0 E803     		.2byte	0x3e8
+ 1053 03a2 00       		.byte	0
+ 1054 03a3 09       		.uleb128 0x9
+ 1055 03a4 6A010000 		.4byte	.LVL37
+ 1056 03a8 94070000 		.4byte	0x794
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 22
+
+
+ 1057 03ac B6030000 		.4byte	0x3b6
+ 1058 03b0 0A       		.uleb128 0xa
+ 1059 03b1 01       		.uleb128 0x1
+ 1060 03b2 50       		.byte	0x50
+ 1061 03b3 01       		.uleb128 0x1
+ 1062 03b4 30       		.byte	0x30
+ 1063 03b5 00       		.byte	0
+ 1064 03b6 09       		.uleb128 0x9
+ 1065 03b7 72010000 		.4byte	.LVL38
+ 1066 03bb 9F070000 		.4byte	0x79f
+ 1067 03bf CB030000 		.4byte	0x3cb
+ 1068 03c3 0A       		.uleb128 0xa
+ 1069 03c4 01       		.uleb128 0x1
+ 1070 03c5 50       		.byte	0x50
+ 1071 03c6 03       		.uleb128 0x3
+ 1072 03c7 0A       		.byte	0xa
+ 1073 03c8 E803     		.2byte	0x3e8
+ 1074 03ca 00       		.byte	0
+ 1075 03cb 09       		.uleb128 0x9
+ 1076 03cc 78010000 		.4byte	.LVL39
+ 1077 03d0 94070000 		.4byte	0x794
+ 1078 03d4 DF030000 		.4byte	0x3df
+ 1079 03d8 0A       		.uleb128 0xa
+ 1080 03d9 01       		.uleb128 0x1
+ 1081 03da 50       		.byte	0x50
+ 1082 03db 02       		.uleb128 0x2
+ 1083 03dc 09       		.byte	0x9
+ 1084 03dd FF       		.byte	0xff
+ 1085 03de 00       		.byte	0
+ 1086 03df 09       		.uleb128 0x9
+ 1087 03e0 80010000 		.4byte	.LVL40
+ 1088 03e4 9F070000 		.4byte	0x79f
+ 1089 03e8 F4030000 		.4byte	0x3f4
+ 1090 03ec 0A       		.uleb128 0xa
+ 1091 03ed 01       		.uleb128 0x1
+ 1092 03ee 50       		.byte	0x50
+ 1093 03ef 03       		.uleb128 0x3
+ 1094 03f0 0A       		.byte	0xa
+ 1095 03f1 E803     		.2byte	0x3e8
+ 1096 03f3 00       		.byte	0
+ 1097 03f4 09       		.uleb128 0x9
+ 1098 03f5 86010000 		.4byte	.LVL41
+ 1099 03f9 94070000 		.4byte	0x794
+ 1100 03fd 07040000 		.4byte	0x407
+ 1101 0401 0A       		.uleb128 0xa
+ 1102 0402 01       		.uleb128 0x1
+ 1103 0403 50       		.byte	0x50
+ 1104 0404 01       		.uleb128 0x1
+ 1105 0405 30       		.byte	0x30
+ 1106 0406 00       		.byte	0
+ 1107 0407 09       		.uleb128 0x9
+ 1108 0408 8E010000 		.4byte	.LVL42
+ 1109 040c 9F070000 		.4byte	0x79f
+ 1110 0410 1C040000 		.4byte	0x41c
+ 1111 0414 0A       		.uleb128 0xa
+ 1112 0415 01       		.uleb128 0x1
+ 1113 0416 50       		.byte	0x50
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 23
+
+
+ 1114 0417 03       		.uleb128 0x3
+ 1115 0418 0A       		.byte	0xa
+ 1116 0419 E803     		.2byte	0x3e8
+ 1117 041b 00       		.byte	0
+ 1118 041c 09       		.uleb128 0x9
+ 1119 041d AA010000 		.4byte	.LVL43
+ 1120 0421 94070000 		.4byte	0x794
+ 1121 0425 30040000 		.4byte	0x430
+ 1122 0429 0A       		.uleb128 0xa
+ 1123 042a 01       		.uleb128 0x1
+ 1124 042b 50       		.byte	0x50
+ 1125 042c 02       		.uleb128 0x2
+ 1126 042d 09       		.byte	0x9
+ 1127 042e FF       		.byte	0xff
+ 1128 042f 00       		.byte	0
+ 1129 0430 09       		.uleb128 0x9
+ 1130 0431 B2010000 		.4byte	.LVL44
+ 1131 0435 9F070000 		.4byte	0x79f
+ 1132 0439 45040000 		.4byte	0x445
+ 1133 043d 0A       		.uleb128 0xa
+ 1134 043e 01       		.uleb128 0x1
+ 1135 043f 50       		.byte	0x50
+ 1136 0440 03       		.uleb128 0x3
+ 1137 0441 0A       		.byte	0xa
+ 1138 0442 E803     		.2byte	0x3e8
+ 1139 0444 00       		.byte	0
+ 1140 0445 09       		.uleb128 0x9
+ 1141 0446 B8010000 		.4byte	.LVL45
+ 1142 044a 94070000 		.4byte	0x794
+ 1143 044e 59040000 		.4byte	0x459
+ 1144 0452 0A       		.uleb128 0xa
+ 1145 0453 01       		.uleb128 0x1
+ 1146 0454 50       		.byte	0x50
+ 1147 0455 02       		.uleb128 0x2
+ 1148 0456 09       		.byte	0x9
+ 1149 0457 FF       		.byte	0xff
+ 1150 0458 00       		.byte	0
+ 1151 0459 09       		.uleb128 0x9
+ 1152 045a C0010000 		.4byte	.LVL46
+ 1153 045e 9F070000 		.4byte	0x79f
+ 1154 0462 6E040000 		.4byte	0x46e
+ 1155 0466 0A       		.uleb128 0xa
+ 1156 0467 01       		.uleb128 0x1
+ 1157 0468 50       		.byte	0x50
+ 1158 0469 03       		.uleb128 0x3
+ 1159 046a 0A       		.byte	0xa
+ 1160 046b E803     		.2byte	0x3e8
+ 1161 046d 00       		.byte	0
+ 1162 046e 09       		.uleb128 0x9
+ 1163 046f C6010000 		.4byte	.LVL47
+ 1164 0473 94070000 		.4byte	0x794
+ 1165 0477 81040000 		.4byte	0x481
+ 1166 047b 0A       		.uleb128 0xa
+ 1167 047c 01       		.uleb128 0x1
+ 1168 047d 50       		.byte	0x50
+ 1169 047e 01       		.uleb128 0x1
+ 1170 047f 30       		.byte	0x30
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 24
+
+
+ 1171 0480 00       		.byte	0
+ 1172 0481 09       		.uleb128 0x9
+ 1173 0482 CE010000 		.4byte	.LVL48
+ 1174 0486 9F070000 		.4byte	0x79f
+ 1175 048a 96040000 		.4byte	0x496
+ 1176 048e 0A       		.uleb128 0xa
+ 1177 048f 01       		.uleb128 0x1
+ 1178 0490 50       		.byte	0x50
+ 1179 0491 03       		.uleb128 0x3
+ 1180 0492 0A       		.byte	0xa
+ 1181 0493 E803     		.2byte	0x3e8
+ 1182 0495 00       		.byte	0
+ 1183 0496 09       		.uleb128 0x9
+ 1184 0497 D4010000 		.4byte	.LVL49
+ 1185 049b 94070000 		.4byte	0x794
+ 1186 049f A9040000 		.4byte	0x4a9
+ 1187 04a3 0A       		.uleb128 0xa
+ 1188 04a4 01       		.uleb128 0x1
+ 1189 04a5 50       		.byte	0x50
+ 1190 04a6 01       		.uleb128 0x1
+ 1191 04a7 30       		.byte	0x30
+ 1192 04a8 00       		.byte	0
+ 1193 04a9 09       		.uleb128 0x9
+ 1194 04aa DC010000 		.4byte	.LVL50
+ 1195 04ae 9F070000 		.4byte	0x79f
+ 1196 04b2 BE040000 		.4byte	0x4be
+ 1197 04b6 0A       		.uleb128 0xa
+ 1198 04b7 01       		.uleb128 0x1
+ 1199 04b8 50       		.byte	0x50
+ 1200 04b9 03       		.uleb128 0x3
+ 1201 04ba 0A       		.byte	0xa
+ 1202 04bb E803     		.2byte	0x3e8
+ 1203 04bd 00       		.byte	0
+ 1204 04be 09       		.uleb128 0x9
+ 1205 04bf FC010000 		.4byte	.LVL51
+ 1206 04c3 94070000 		.4byte	0x794
+ 1207 04c7 D2040000 		.4byte	0x4d2
+ 1208 04cb 0A       		.uleb128 0xa
+ 1209 04cc 01       		.uleb128 0x1
+ 1210 04cd 50       		.byte	0x50
+ 1211 04ce 02       		.uleb128 0x2
+ 1212 04cf 09       		.byte	0x9
+ 1213 04d0 FF       		.byte	0xff
+ 1214 04d1 00       		.byte	0
+ 1215 04d2 09       		.uleb128 0x9
+ 1216 04d3 04020000 		.4byte	.LVL52
+ 1217 04d7 9F070000 		.4byte	0x79f
+ 1218 04db E7040000 		.4byte	0x4e7
+ 1219 04df 0A       		.uleb128 0xa
+ 1220 04e0 01       		.uleb128 0x1
+ 1221 04e1 50       		.byte	0x50
+ 1222 04e2 03       		.uleb128 0x3
+ 1223 04e3 0A       		.byte	0xa
+ 1224 04e4 E803     		.2byte	0x3e8
+ 1225 04e6 00       		.byte	0
+ 1226 04e7 09       		.uleb128 0x9
+ 1227 04e8 0A020000 		.4byte	.LVL53
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 25
+
+
+ 1228 04ec 94070000 		.4byte	0x794
+ 1229 04f0 FB040000 		.4byte	0x4fb
+ 1230 04f4 0A       		.uleb128 0xa
+ 1231 04f5 01       		.uleb128 0x1
+ 1232 04f6 50       		.byte	0x50
+ 1233 04f7 02       		.uleb128 0x2
+ 1234 04f8 09       		.byte	0x9
+ 1235 04f9 FF       		.byte	0xff
+ 1236 04fa 00       		.byte	0
+ 1237 04fb 09       		.uleb128 0x9
+ 1238 04fc 12020000 		.4byte	.LVL54
+ 1239 0500 9F070000 		.4byte	0x79f
+ 1240 0504 10050000 		.4byte	0x510
+ 1241 0508 0A       		.uleb128 0xa
+ 1242 0509 01       		.uleb128 0x1
+ 1243 050a 50       		.byte	0x50
+ 1244 050b 03       		.uleb128 0x3
+ 1245 050c 0A       		.byte	0xa
+ 1246 050d E803     		.2byte	0x3e8
+ 1247 050f 00       		.byte	0
+ 1248 0510 09       		.uleb128 0x9
+ 1249 0511 18020000 		.4byte	.LVL55
+ 1250 0515 94070000 		.4byte	0x794
+ 1251 0519 23050000 		.4byte	0x523
+ 1252 051d 0A       		.uleb128 0xa
+ 1253 051e 01       		.uleb128 0x1
+ 1254 051f 50       		.byte	0x50
+ 1255 0520 01       		.uleb128 0x1
+ 1256 0521 30       		.byte	0x30
+ 1257 0522 00       		.byte	0
+ 1258 0523 09       		.uleb128 0x9
+ 1259 0524 20020000 		.4byte	.LVL56
+ 1260 0528 9F070000 		.4byte	0x79f
+ 1261 052c 38050000 		.4byte	0x538
+ 1262 0530 0A       		.uleb128 0xa
+ 1263 0531 01       		.uleb128 0x1
+ 1264 0532 50       		.byte	0x50
+ 1265 0533 03       		.uleb128 0x3
+ 1266 0534 0A       		.byte	0xa
+ 1267 0535 E803     		.2byte	0x3e8
+ 1268 0537 00       		.byte	0
+ 1269 0538 09       		.uleb128 0x9
+ 1270 0539 26020000 		.4byte	.LVL57
+ 1271 053d 94070000 		.4byte	0x794
+ 1272 0541 4C050000 		.4byte	0x54c
+ 1273 0545 0A       		.uleb128 0xa
+ 1274 0546 01       		.uleb128 0x1
+ 1275 0547 50       		.byte	0x50
+ 1276 0548 02       		.uleb128 0x2
+ 1277 0549 09       		.byte	0x9
+ 1278 054a FF       		.byte	0xff
+ 1279 054b 00       		.byte	0
+ 1280 054c 09       		.uleb128 0x9
+ 1281 054d 2E020000 		.4byte	.LVL58
+ 1282 0551 9F070000 		.4byte	0x79f
+ 1283 0555 61050000 		.4byte	0x561
+ 1284 0559 0A       		.uleb128 0xa
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 26
+
+
+ 1285 055a 01       		.uleb128 0x1
+ 1286 055b 50       		.byte	0x50
+ 1287 055c 03       		.uleb128 0x3
+ 1288 055d 0A       		.byte	0xa
+ 1289 055e E803     		.2byte	0x3e8
+ 1290 0560 00       		.byte	0
+ 1291 0561 09       		.uleb128 0x9
+ 1292 0562 3C020000 		.4byte	.LVL60
+ 1293 0566 94070000 		.4byte	0x794
+ 1294 056a 74050000 		.4byte	0x574
+ 1295 056e 0A       		.uleb128 0xa
+ 1296 056f 01       		.uleb128 0x1
+ 1297 0570 50       		.byte	0x50
+ 1298 0571 01       		.uleb128 0x1
+ 1299 0572 30       		.byte	0x30
+ 1300 0573 00       		.byte	0
+ 1301 0574 09       		.uleb128 0x9
+ 1302 0575 44020000 		.4byte	.LVL61
+ 1303 0579 9F070000 		.4byte	0x79f
+ 1304 057d 89050000 		.4byte	0x589
+ 1305 0581 0A       		.uleb128 0xa
+ 1306 0582 01       		.uleb128 0x1
+ 1307 0583 50       		.byte	0x50
+ 1308 0584 03       		.uleb128 0x3
+ 1309 0585 0A       		.byte	0xa
+ 1310 0586 E803     		.2byte	0x3e8
+ 1311 0588 00       		.byte	0
+ 1312 0589 09       		.uleb128 0x9
+ 1313 058a 4A020000 		.4byte	.LVL62
+ 1314 058e 94070000 		.4byte	0x794
+ 1315 0592 9C050000 		.4byte	0x59c
+ 1316 0596 0A       		.uleb128 0xa
+ 1317 0597 01       		.uleb128 0x1
+ 1318 0598 50       		.byte	0x50
+ 1319 0599 01       		.uleb128 0x1
+ 1320 059a 30       		.byte	0x30
+ 1321 059b 00       		.byte	0
+ 1322 059c 09       		.uleb128 0x9
+ 1323 059d 52020000 		.4byte	.LVL63
+ 1324 05a1 9F070000 		.4byte	0x79f
+ 1325 05a5 B1050000 		.4byte	0x5b1
+ 1326 05a9 0A       		.uleb128 0xa
+ 1327 05aa 01       		.uleb128 0x1
+ 1328 05ab 50       		.byte	0x50
+ 1329 05ac 03       		.uleb128 0x3
+ 1330 05ad 0A       		.byte	0xa
+ 1331 05ae E803     		.2byte	0x3e8
+ 1332 05b0 00       		.byte	0
+ 1333 05b1 09       		.uleb128 0x9
+ 1334 05b2 58020000 		.4byte	.LVL64
+ 1335 05b6 94070000 		.4byte	0x794
+ 1336 05ba C5050000 		.4byte	0x5c5
+ 1337 05be 0A       		.uleb128 0xa
+ 1338 05bf 01       		.uleb128 0x1
+ 1339 05c0 50       		.byte	0x50
+ 1340 05c1 02       		.uleb128 0x2
+ 1341 05c2 09       		.byte	0x9
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 27
+
+
+ 1342 05c3 FF       		.byte	0xff
+ 1343 05c4 00       		.byte	0
+ 1344 05c5 09       		.uleb128 0x9
+ 1345 05c6 60020000 		.4byte	.LVL65
+ 1346 05ca 9F070000 		.4byte	0x79f
+ 1347 05ce DA050000 		.4byte	0x5da
+ 1348 05d2 0A       		.uleb128 0xa
+ 1349 05d3 01       		.uleb128 0x1
+ 1350 05d4 50       		.byte	0x50
+ 1351 05d5 03       		.uleb128 0x3
+ 1352 05d6 0A       		.byte	0xa
+ 1353 05d7 E803     		.2byte	0x3e8
+ 1354 05d9 00       		.byte	0
+ 1355 05da 09       		.uleb128 0x9
+ 1356 05db 66020000 		.4byte	.LVL66
+ 1357 05df 94070000 		.4byte	0x794
+ 1358 05e3 ED050000 		.4byte	0x5ed
+ 1359 05e7 0A       		.uleb128 0xa
+ 1360 05e8 01       		.uleb128 0x1
+ 1361 05e9 50       		.byte	0x50
+ 1362 05ea 01       		.uleb128 0x1
+ 1363 05eb 30       		.byte	0x30
+ 1364 05ec 00       		.byte	0
+ 1365 05ed 09       		.uleb128 0x9
+ 1366 05ee 6E020000 		.4byte	.LVL67
+ 1367 05f2 9F070000 		.4byte	0x79f
+ 1368 05f6 02060000 		.4byte	0x602
+ 1369 05fa 0A       		.uleb128 0xa
+ 1370 05fb 01       		.uleb128 0x1
+ 1371 05fc 50       		.byte	0x50
+ 1372 05fd 03       		.uleb128 0x3
+ 1373 05fe 0A       		.byte	0xa
+ 1374 05ff E803     		.2byte	0x3e8
+ 1375 0601 00       		.byte	0
+ 1376 0602 09       		.uleb128 0x9
+ 1377 0603 90020000 		.4byte	.LVL69
+ 1378 0607 94070000 		.4byte	0x794
+ 1379 060b 16060000 		.4byte	0x616
+ 1380 060f 0A       		.uleb128 0xa
+ 1381 0610 01       		.uleb128 0x1
+ 1382 0611 50       		.byte	0x50
+ 1383 0612 02       		.uleb128 0x2
+ 1384 0613 09       		.byte	0x9
+ 1385 0614 FF       		.byte	0xff
+ 1386 0615 00       		.byte	0
+ 1387 0616 09       		.uleb128 0x9
+ 1388 0617 98020000 		.4byte	.LVL70
+ 1389 061b 9F070000 		.4byte	0x79f
+ 1390 061f 2B060000 		.4byte	0x62b
+ 1391 0623 0A       		.uleb128 0xa
+ 1392 0624 01       		.uleb128 0x1
+ 1393 0625 50       		.byte	0x50
+ 1394 0626 03       		.uleb128 0x3
+ 1395 0627 0A       		.byte	0xa
+ 1396 0628 E803     		.2byte	0x3e8
+ 1397 062a 00       		.byte	0
+ 1398 062b 09       		.uleb128 0x9
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 28
+
+
+ 1399 062c 9E020000 		.4byte	.LVL71
+ 1400 0630 94070000 		.4byte	0x794
+ 1401 0634 3E060000 		.4byte	0x63e
+ 1402 0638 0A       		.uleb128 0xa
+ 1403 0639 01       		.uleb128 0x1
+ 1404 063a 50       		.byte	0x50
+ 1405 063b 01       		.uleb128 0x1
+ 1406 063c 30       		.byte	0x30
+ 1407 063d 00       		.byte	0
+ 1408 063e 09       		.uleb128 0x9
+ 1409 063f A6020000 		.4byte	.LVL72
+ 1410 0643 9F070000 		.4byte	0x79f
+ 1411 0647 53060000 		.4byte	0x653
+ 1412 064b 0A       		.uleb128 0xa
+ 1413 064c 01       		.uleb128 0x1
+ 1414 064d 50       		.byte	0x50
+ 1415 064e 03       		.uleb128 0x3
+ 1416 064f 0A       		.byte	0xa
+ 1417 0650 E803     		.2byte	0x3e8
+ 1418 0652 00       		.byte	0
+ 1419 0653 09       		.uleb128 0x9
+ 1420 0654 AC020000 		.4byte	.LVL73
+ 1421 0658 94070000 		.4byte	0x794
+ 1422 065c 67060000 		.4byte	0x667
+ 1423 0660 0A       		.uleb128 0xa
+ 1424 0661 01       		.uleb128 0x1
+ 1425 0662 50       		.byte	0x50
+ 1426 0663 02       		.uleb128 0x2
+ 1427 0664 09       		.byte	0x9
+ 1428 0665 FF       		.byte	0xff
+ 1429 0666 00       		.byte	0
+ 1430 0667 09       		.uleb128 0x9
+ 1431 0668 B4020000 		.4byte	.LVL74
+ 1432 066c 9F070000 		.4byte	0x79f
+ 1433 0670 7C060000 		.4byte	0x67c
+ 1434 0674 0A       		.uleb128 0xa
+ 1435 0675 01       		.uleb128 0x1
+ 1436 0676 50       		.byte	0x50
+ 1437 0677 03       		.uleb128 0x3
+ 1438 0678 0A       		.byte	0xa
+ 1439 0679 E803     		.2byte	0x3e8
+ 1440 067b 00       		.byte	0
+ 1441 067c 09       		.uleb128 0x9
+ 1442 067d BA020000 		.4byte	.LVL75
+ 1443 0681 94070000 		.4byte	0x794
+ 1444 0685 90060000 		.4byte	0x690
+ 1445 0689 0A       		.uleb128 0xa
+ 1446 068a 01       		.uleb128 0x1
+ 1447 068b 50       		.byte	0x50
+ 1448 068c 02       		.uleb128 0x2
+ 1449 068d 09       		.byte	0x9
+ 1450 068e FF       		.byte	0xff
+ 1451 068f 00       		.byte	0
+ 1452 0690 09       		.uleb128 0x9
+ 1453 0691 C2020000 		.4byte	.LVL76
+ 1454 0695 9F070000 		.4byte	0x79f
+ 1455 0699 A5060000 		.4byte	0x6a5
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 29
+
+
+ 1456 069d 0A       		.uleb128 0xa
+ 1457 069e 01       		.uleb128 0x1
+ 1458 069f 50       		.byte	0x50
+ 1459 06a0 03       		.uleb128 0x3
+ 1460 06a1 0A       		.byte	0xa
+ 1461 06a2 E803     		.2byte	0x3e8
+ 1462 06a4 00       		.byte	0
+ 1463 06a5 09       		.uleb128 0x9
+ 1464 06a6 CE020000 		.4byte	.LVL78
+ 1465 06aa 94070000 		.4byte	0x794
+ 1466 06ae B8060000 		.4byte	0x6b8
+ 1467 06b2 0A       		.uleb128 0xa
+ 1468 06b3 01       		.uleb128 0x1
+ 1469 06b4 50       		.byte	0x50
+ 1470 06b5 01       		.uleb128 0x1
+ 1471 06b6 30       		.byte	0x30
+ 1472 06b7 00       		.byte	0
+ 1473 06b8 09       		.uleb128 0x9
+ 1474 06b9 D6020000 		.4byte	.LVL79
+ 1475 06bd 9F070000 		.4byte	0x79f
+ 1476 06c1 CD060000 		.4byte	0x6cd
+ 1477 06c5 0A       		.uleb128 0xa
+ 1478 06c6 01       		.uleb128 0x1
+ 1479 06c7 50       		.byte	0x50
+ 1480 06c8 03       		.uleb128 0x3
+ 1481 06c9 0A       		.byte	0xa
+ 1482 06ca E803     		.2byte	0x3e8
+ 1483 06cc 00       		.byte	0
+ 1484 06cd 09       		.uleb128 0x9
+ 1485 06ce DC020000 		.4byte	.LVL80
+ 1486 06d2 94070000 		.4byte	0x794
+ 1487 06d6 E1060000 		.4byte	0x6e1
+ 1488 06da 0A       		.uleb128 0xa
+ 1489 06db 01       		.uleb128 0x1
+ 1490 06dc 50       		.byte	0x50
+ 1491 06dd 02       		.uleb128 0x2
+ 1492 06de 09       		.byte	0x9
+ 1493 06df FF       		.byte	0xff
+ 1494 06e0 00       		.byte	0
+ 1495 06e1 09       		.uleb128 0x9
+ 1496 06e2 E4020000 		.4byte	.LVL81
+ 1497 06e6 9F070000 		.4byte	0x79f
+ 1498 06ea F6060000 		.4byte	0x6f6
+ 1499 06ee 0A       		.uleb128 0xa
+ 1500 06ef 01       		.uleb128 0x1
+ 1501 06f0 50       		.byte	0x50
+ 1502 06f1 03       		.uleb128 0x3
+ 1503 06f2 0A       		.byte	0xa
+ 1504 06f3 E803     		.2byte	0x3e8
+ 1505 06f5 00       		.byte	0
+ 1506 06f6 09       		.uleb128 0x9
+ 1507 06f7 EA020000 		.4byte	.LVL82
+ 1508 06fb 94070000 		.4byte	0x794
+ 1509 06ff 09070000 		.4byte	0x709
+ 1510 0703 0A       		.uleb128 0xa
+ 1511 0704 01       		.uleb128 0x1
+ 1512 0705 50       		.byte	0x50
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 30
+
+
+ 1513 0706 01       		.uleb128 0x1
+ 1514 0707 30       		.byte	0x30
+ 1515 0708 00       		.byte	0
+ 1516 0709 09       		.uleb128 0x9
+ 1517 070a F2020000 		.4byte	.LVL83
+ 1518 070e 9F070000 		.4byte	0x79f
+ 1519 0712 1E070000 		.4byte	0x71e
+ 1520 0716 0A       		.uleb128 0xa
+ 1521 0717 01       		.uleb128 0x1
+ 1522 0718 50       		.byte	0x50
+ 1523 0719 03       		.uleb128 0x3
+ 1524 071a 0A       		.byte	0xa
+ 1525 071b E803     		.2byte	0x3e8
+ 1526 071d 00       		.byte	0
+ 1527 071e 09       		.uleb128 0x9
+ 1528 071f F8020000 		.4byte	.LVL84
+ 1529 0723 94070000 		.4byte	0x794
+ 1530 0727 31070000 		.4byte	0x731
+ 1531 072b 0A       		.uleb128 0xa
+ 1532 072c 01       		.uleb128 0x1
+ 1533 072d 50       		.byte	0x50
+ 1534 072e 01       		.uleb128 0x1
+ 1535 072f 30       		.byte	0x30
+ 1536 0730 00       		.byte	0
+ 1537 0731 09       		.uleb128 0x9
+ 1538 0732 00030000 		.4byte	.LVL85
+ 1539 0736 9F070000 		.4byte	0x79f
+ 1540 073a 46070000 		.4byte	0x746
+ 1541 073e 0A       		.uleb128 0xa
+ 1542 073f 01       		.uleb128 0x1
+ 1543 0740 50       		.byte	0x50
+ 1544 0741 03       		.uleb128 0x3
+ 1545 0742 0A       		.byte	0xa
+ 1546 0743 E803     		.2byte	0x3e8
+ 1547 0745 00       		.byte	0
+ 1548 0746 0B       		.uleb128 0xb
+ 1549 0747 0C030000 		.4byte	.LVL87
+ 1550 074b 9F070000 		.4byte	0x79f
+ 1551 074f 0A       		.uleb128 0xa
+ 1552 0750 01       		.uleb128 0x1
+ 1553 0751 50       		.byte	0x50
+ 1554 0752 03       		.uleb128 0x3
+ 1555 0753 0A       		.byte	0xa
+ 1556 0754 B80B     		.2byte	0xbb8
+ 1557 0756 00       		.byte	0
+ 1558 0757 00       		.byte	0
+ 1559 0758 0C       		.uleb128 0xc
+ 1560 0759 08000000 		.4byte	.LVL0
+ 1561 075d AA070000 		.4byte	0x7aa
+ 1562 0761 00       		.byte	0
+ 1563 0762 0D       		.uleb128 0xd
+ 1564 0763 6F010000 		.4byte	.LASF17
+ 1565 0767 05       		.byte	0x5
+ 1566 0768 1207     		.2byte	0x712
+ 1567 076a 6E070000 		.4byte	0x76e
+ 1568 076e 0E       		.uleb128 0xe
+ 1569 076f 76000000 		.4byte	0x76
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 31
+
+
+ 1570 0773 0F       		.uleb128 0xf
+ 1571 0774 81000000 		.4byte	0x81
+ 1572 0778 83070000 		.4byte	0x783
+ 1573 077c 10       		.uleb128 0x10
+ 1574 077d A2000000 		.4byte	0xa2
+ 1575 0781 0B       		.byte	0xb
+ 1576 0782 00       		.byte	0
+ 1577 0783 11       		.uleb128 0x11
+ 1578 0784 35000000 		.4byte	.LASF18
+ 1579 0788 01       		.byte	0x1
+ 1580 0789 05       		.byte	0x5
+ 1581 078a 73070000 		.4byte	0x773
+ 1582 078e 05       		.uleb128 0x5
+ 1583 078f 03       		.byte	0x3
+ 1584 0790 00000000 		.4byte	signal
+ 1585 0794 12       		.uleb128 0x12
+ 1586 0795 B6010000 		.4byte	.LASF19
+ 1587 0799 B6010000 		.4byte	.LASF19
+ 1588 079d 06       		.byte	0x6
+ 1589 079e 37       		.byte	0x37
+ 1590 079f 12       		.uleb128 0x12
+ 1591 07a0 10010000 		.4byte	.LASF20
+ 1592 07a4 10010000 		.4byte	.LASF20
+ 1593 07a8 07       		.byte	0x7
+ 1594 07a9 76       		.byte	0x76
+ 1595 07aa 12       		.uleb128 0x12
+ 1596 07ab 88010000 		.4byte	.LASF21
+ 1597 07af 88010000 		.4byte	.LASF21
+ 1598 07b3 06       		.byte	0x6
+ 1599 07b4 33       		.byte	0x33
+ 1600 07b5 00       		.byte	0
+ 1601              		.section	.debug_abbrev,"",%progbits
+ 1602              	.Ldebug_abbrev0:
+ 1603 0000 01       		.uleb128 0x1
+ 1604 0001 11       		.uleb128 0x11
+ 1605 0002 01       		.byte	0x1
+ 1606 0003 25       		.uleb128 0x25
+ 1607 0004 0E       		.uleb128 0xe
+ 1608 0005 13       		.uleb128 0x13
+ 1609 0006 0B       		.uleb128 0xb
+ 1610 0007 03       		.uleb128 0x3
+ 1611 0008 0E       		.uleb128 0xe
+ 1612 0009 1B       		.uleb128 0x1b
+ 1613 000a 0E       		.uleb128 0xe
+ 1614 000b 55       		.uleb128 0x55
+ 1615 000c 17       		.uleb128 0x17
+ 1616 000d 11       		.uleb128 0x11
+ 1617 000e 01       		.uleb128 0x1
+ 1618 000f 10       		.uleb128 0x10
+ 1619 0010 17       		.uleb128 0x17
+ 1620 0011 00       		.byte	0
+ 1621 0012 00       		.byte	0
+ 1622 0013 02       		.uleb128 0x2
+ 1623 0014 24       		.uleb128 0x24
+ 1624 0015 00       		.byte	0
+ 1625 0016 0B       		.uleb128 0xb
+ 1626 0017 0B       		.uleb128 0xb
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 32
+
+
+ 1627 0018 3E       		.uleb128 0x3e
+ 1628 0019 0B       		.uleb128 0xb
+ 1629 001a 03       		.uleb128 0x3
+ 1630 001b 0E       		.uleb128 0xe
+ 1631 001c 00       		.byte	0
+ 1632 001d 00       		.byte	0
+ 1633 001e 03       		.uleb128 0x3
+ 1634 001f 16       		.uleb128 0x16
+ 1635 0020 00       		.byte	0
+ 1636 0021 03       		.uleb128 0x3
+ 1637 0022 0E       		.uleb128 0xe
+ 1638 0023 3A       		.uleb128 0x3a
+ 1639 0024 0B       		.uleb128 0xb
+ 1640 0025 3B       		.uleb128 0x3b
+ 1641 0026 0B       		.uleb128 0xb
+ 1642 0027 49       		.uleb128 0x49
+ 1643 0028 13       		.uleb128 0x13
+ 1644 0029 00       		.byte	0
+ 1645 002a 00       		.byte	0
+ 1646 002b 04       		.uleb128 0x4
+ 1647 002c 24       		.uleb128 0x24
+ 1648 002d 00       		.byte	0
+ 1649 002e 0B       		.uleb128 0xb
+ 1650 002f 0B       		.uleb128 0xb
+ 1651 0030 3E       		.uleb128 0x3e
+ 1652 0031 0B       		.uleb128 0xb
+ 1653 0032 03       		.uleb128 0x3
+ 1654 0033 08       		.uleb128 0x8
+ 1655 0034 00       		.byte	0
+ 1656 0035 00       		.byte	0
+ 1657 0036 05       		.uleb128 0x5
+ 1658 0037 16       		.uleb128 0x16
+ 1659 0038 00       		.byte	0
+ 1660 0039 03       		.uleb128 0x3
+ 1661 003a 0E       		.uleb128 0xe
+ 1662 003b 3A       		.uleb128 0x3a
+ 1663 003c 0B       		.uleb128 0xb
+ 1664 003d 3B       		.uleb128 0x3b
+ 1665 003e 05       		.uleb128 0x5
+ 1666 003f 49       		.uleb128 0x49
+ 1667 0040 13       		.uleb128 0x13
+ 1668 0041 00       		.byte	0
+ 1669 0042 00       		.byte	0
+ 1670 0043 06       		.uleb128 0x6
+ 1671 0044 2E       		.uleb128 0x2e
+ 1672 0045 01       		.byte	0x1
+ 1673 0046 3F       		.uleb128 0x3f
+ 1674 0047 19       		.uleb128 0x19
+ 1675 0048 03       		.uleb128 0x3
+ 1676 0049 0E       		.uleb128 0xe
+ 1677 004a 3A       		.uleb128 0x3a
+ 1678 004b 0B       		.uleb128 0xb
+ 1679 004c 3B       		.uleb128 0x3b
+ 1680 004d 0B       		.uleb128 0xb
+ 1681 004e 27       		.uleb128 0x27
+ 1682 004f 19       		.uleb128 0x19
+ 1683 0050 49       		.uleb128 0x49
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 33
+
+
+ 1684 0051 13       		.uleb128 0x13
+ 1685 0052 8701     		.uleb128 0x87
+ 1686 0054 19       		.uleb128 0x19
+ 1687 0055 11       		.uleb128 0x11
+ 1688 0056 01       		.uleb128 0x1
+ 1689 0057 12       		.uleb128 0x12
+ 1690 0058 06       		.uleb128 0x6
+ 1691 0059 40       		.uleb128 0x40
+ 1692 005a 18       		.uleb128 0x18
+ 1693 005b 9742     		.uleb128 0x2117
+ 1694 005d 19       		.uleb128 0x19
+ 1695 005e 01       		.uleb128 0x1
+ 1696 005f 13       		.uleb128 0x13
+ 1697 0060 00       		.byte	0
+ 1698 0061 00       		.byte	0
+ 1699 0062 07       		.uleb128 0x7
+ 1700 0063 34       		.uleb128 0x34
+ 1701 0064 00       		.byte	0
+ 1702 0065 03       		.uleb128 0x3
+ 1703 0066 08       		.uleb128 0x8
+ 1704 0067 3A       		.uleb128 0x3a
+ 1705 0068 0B       		.uleb128 0xb
+ 1706 0069 3B       		.uleb128 0x3b
+ 1707 006a 0B       		.uleb128 0xb
+ 1708 006b 49       		.uleb128 0x49
+ 1709 006c 13       		.uleb128 0x13
+ 1710 006d 02       		.uleb128 0x2
+ 1711 006e 17       		.uleb128 0x17
+ 1712 006f 00       		.byte	0
+ 1713 0070 00       		.byte	0
+ 1714 0071 08       		.uleb128 0x8
+ 1715 0072 0B       		.uleb128 0xb
+ 1716 0073 01       		.byte	0x1
+ 1717 0074 11       		.uleb128 0x11
+ 1718 0075 01       		.uleb128 0x1
+ 1719 0076 12       		.uleb128 0x12
+ 1720 0077 06       		.uleb128 0x6
+ 1721 0078 01       		.uleb128 0x1
+ 1722 0079 13       		.uleb128 0x13
+ 1723 007a 00       		.byte	0
+ 1724 007b 00       		.byte	0
+ 1725 007c 09       		.uleb128 0x9
+ 1726 007d 898201   		.uleb128 0x4109
+ 1727 0080 01       		.byte	0x1
+ 1728 0081 11       		.uleb128 0x11
+ 1729 0082 01       		.uleb128 0x1
+ 1730 0083 31       		.uleb128 0x31
+ 1731 0084 13       		.uleb128 0x13
+ 1732 0085 01       		.uleb128 0x1
+ 1733 0086 13       		.uleb128 0x13
+ 1734 0087 00       		.byte	0
+ 1735 0088 00       		.byte	0
+ 1736 0089 0A       		.uleb128 0xa
+ 1737 008a 8A8201   		.uleb128 0x410a
+ 1738 008d 00       		.byte	0
+ 1739 008e 02       		.uleb128 0x2
+ 1740 008f 18       		.uleb128 0x18
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 34
+
+
+ 1741 0090 9142     		.uleb128 0x2111
+ 1742 0092 18       		.uleb128 0x18
+ 1743 0093 00       		.byte	0
+ 1744 0094 00       		.byte	0
+ 1745 0095 0B       		.uleb128 0xb
+ 1746 0096 898201   		.uleb128 0x4109
+ 1747 0099 01       		.byte	0x1
+ 1748 009a 11       		.uleb128 0x11
+ 1749 009b 01       		.uleb128 0x1
+ 1750 009c 31       		.uleb128 0x31
+ 1751 009d 13       		.uleb128 0x13
+ 1752 009e 00       		.byte	0
+ 1753 009f 00       		.byte	0
+ 1754 00a0 0C       		.uleb128 0xc
+ 1755 00a1 898201   		.uleb128 0x4109
+ 1756 00a4 00       		.byte	0
+ 1757 00a5 11       		.uleb128 0x11
+ 1758 00a6 01       		.uleb128 0x1
+ 1759 00a7 31       		.uleb128 0x31
+ 1760 00a8 13       		.uleb128 0x13
+ 1761 00a9 00       		.byte	0
+ 1762 00aa 00       		.byte	0
+ 1763 00ab 0D       		.uleb128 0xd
+ 1764 00ac 34       		.uleb128 0x34
+ 1765 00ad 00       		.byte	0
+ 1766 00ae 03       		.uleb128 0x3
+ 1767 00af 0E       		.uleb128 0xe
+ 1768 00b0 3A       		.uleb128 0x3a
+ 1769 00b1 0B       		.uleb128 0xb
+ 1770 00b2 3B       		.uleb128 0x3b
+ 1771 00b3 05       		.uleb128 0x5
+ 1772 00b4 49       		.uleb128 0x49
+ 1773 00b5 13       		.uleb128 0x13
+ 1774 00b6 3F       		.uleb128 0x3f
+ 1775 00b7 19       		.uleb128 0x19
+ 1776 00b8 3C       		.uleb128 0x3c
+ 1777 00b9 19       		.uleb128 0x19
+ 1778 00ba 00       		.byte	0
+ 1779 00bb 00       		.byte	0
+ 1780 00bc 0E       		.uleb128 0xe
+ 1781 00bd 35       		.uleb128 0x35
+ 1782 00be 00       		.byte	0
+ 1783 00bf 49       		.uleb128 0x49
+ 1784 00c0 13       		.uleb128 0x13
+ 1785 00c1 00       		.byte	0
+ 1786 00c2 00       		.byte	0
+ 1787 00c3 0F       		.uleb128 0xf
+ 1788 00c4 01       		.uleb128 0x1
+ 1789 00c5 01       		.byte	0x1
+ 1790 00c6 49       		.uleb128 0x49
+ 1791 00c7 13       		.uleb128 0x13
+ 1792 00c8 01       		.uleb128 0x1
+ 1793 00c9 13       		.uleb128 0x13
+ 1794 00ca 00       		.byte	0
+ 1795 00cb 00       		.byte	0
+ 1796 00cc 10       		.uleb128 0x10
+ 1797 00cd 21       		.uleb128 0x21
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 35
+
+
+ 1798 00ce 00       		.byte	0
+ 1799 00cf 49       		.uleb128 0x49
+ 1800 00d0 13       		.uleb128 0x13
+ 1801 00d1 2F       		.uleb128 0x2f
+ 1802 00d2 0B       		.uleb128 0xb
+ 1803 00d3 00       		.byte	0
+ 1804 00d4 00       		.byte	0
+ 1805 00d5 11       		.uleb128 0x11
+ 1806 00d6 34       		.uleb128 0x34
+ 1807 00d7 00       		.byte	0
+ 1808 00d8 03       		.uleb128 0x3
+ 1809 00d9 0E       		.uleb128 0xe
+ 1810 00da 3A       		.uleb128 0x3a
+ 1811 00db 0B       		.uleb128 0xb
+ 1812 00dc 3B       		.uleb128 0x3b
+ 1813 00dd 0B       		.uleb128 0xb
+ 1814 00de 49       		.uleb128 0x49
+ 1815 00df 13       		.uleb128 0x13
+ 1816 00e0 3F       		.uleb128 0x3f
+ 1817 00e1 19       		.uleb128 0x19
+ 1818 00e2 02       		.uleb128 0x2
+ 1819 00e3 18       		.uleb128 0x18
+ 1820 00e4 00       		.byte	0
+ 1821 00e5 00       		.byte	0
+ 1822 00e6 12       		.uleb128 0x12
+ 1823 00e7 2E       		.uleb128 0x2e
+ 1824 00e8 00       		.byte	0
+ 1825 00e9 3F       		.uleb128 0x3f
+ 1826 00ea 19       		.uleb128 0x19
+ 1827 00eb 3C       		.uleb128 0x3c
+ 1828 00ec 19       		.uleb128 0x19
+ 1829 00ed 6E       		.uleb128 0x6e
+ 1830 00ee 0E       		.uleb128 0xe
+ 1831 00ef 03       		.uleb128 0x3
+ 1832 00f0 0E       		.uleb128 0xe
+ 1833 00f1 3A       		.uleb128 0x3a
+ 1834 00f2 0B       		.uleb128 0xb
+ 1835 00f3 3B       		.uleb128 0x3b
+ 1836 00f4 0B       		.uleb128 0xb
+ 1837 00f5 00       		.byte	0
+ 1838 00f6 00       		.byte	0
+ 1839 00f7 00       		.byte	0
+ 1840              		.section	.debug_loc,"",%progbits
+ 1841              	.Ldebug_loc0:
+ 1842              	.LLST0:
+ 1843 0000 08000000 		.4byte	.LVL0
+ 1844 0004 0A000000 		.4byte	.LVL1
+ 1845 0008 0200     		.2byte	0x2
+ 1846 000a 30       		.byte	0x30
+ 1847 000b 9F       		.byte	0x9f
+ 1848 000c 0A000000 		.4byte	.LVL1
+ 1849 0010 2E020000 		.4byte	.LVL58
+ 1850 0014 0100     		.2byte	0x1
+ 1851 0016 55       		.byte	0x55
+ 1852 0017 2E020000 		.4byte	.LVL58
+ 1853 001b 32020000 		.4byte	.LVL59
+ 1854 001f 0200     		.2byte	0x2
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 36
+
+
+ 1855 0021 31       		.byte	0x31
+ 1856 0022 9F       		.byte	0x9f
+ 1857 0023 32020000 		.4byte	.LVL59
+ 1858 0027 6E020000 		.4byte	.LVL67
+ 1859 002b 0100     		.2byte	0x1
+ 1860 002d 55       		.byte	0x55
+ 1861 002e 6E020000 		.4byte	.LVL67
+ 1862 0032 72020000 		.4byte	.LVL68
+ 1863 0036 0200     		.2byte	0x2
+ 1864 0038 30       		.byte	0x30
+ 1865 0039 9F       		.byte	0x9f
+ 1866 003a 72020000 		.4byte	.LVL68
+ 1867 003e C2020000 		.4byte	.LVL76
+ 1868 0042 0100     		.2byte	0x1
+ 1869 0044 55       		.byte	0x55
+ 1870 0045 C2020000 		.4byte	.LVL76
+ 1871 0049 C6020000 		.4byte	.LVL77
+ 1872 004d 0200     		.2byte	0x2
+ 1873 004f 31       		.byte	0x31
+ 1874 0050 9F       		.byte	0x9f
+ 1875 0051 C6020000 		.4byte	.LVL77
+ 1876 0055 00030000 		.4byte	.LVL85
+ 1877 0059 0100     		.2byte	0x1
+ 1878 005b 55       		.byte	0x55
+ 1879 005c 00030000 		.4byte	.LVL85
+ 1880 0060 04030000 		.4byte	.LVL86
+ 1881 0064 0200     		.2byte	0x2
+ 1882 0066 30       		.byte	0x30
+ 1883 0067 9F       		.byte	0x9f
+ 1884 0068 04030000 		.4byte	.LVL86
+ 1885 006c 1C030000 		.4byte	.LFE63
+ 1886 0070 0100     		.2byte	0x1
+ 1887 0072 55       		.byte	0x55
+ 1888 0073 00000000 		.4byte	0
+ 1889 0077 00000000 		.4byte	0
+ 1890              	.LLST1:
+ 1891 007b 0A000000 		.4byte	.LVL1
+ 1892 007f 0E000000 		.4byte	.LVL2
+ 1893 0083 0200     		.2byte	0x2
+ 1894 0085 30       		.byte	0x30
+ 1895 0086 9F       		.byte	0x9f
+ 1896 0087 0E000000 		.4byte	.LVL2
+ 1897 008b 0E030000 		.4byte	.LVL88
+ 1898 008f 0100     		.2byte	0x1
+ 1899 0091 54       		.byte	0x54
+ 1900 0092 10030000 		.4byte	.LVL89
+ 1901 0096 1C030000 		.4byte	.LFE63
+ 1902 009a 0100     		.2byte	0x1
+ 1903 009c 54       		.byte	0x54
+ 1904 009d 00000000 		.4byte	0
+ 1905 00a1 00000000 		.4byte	0
+ 1906              		.section	.debug_aranges,"",%progbits
+ 1907 0000 1C000000 		.4byte	0x1c
+ 1908 0004 0200     		.2byte	0x2
+ 1909 0006 00000000 		.4byte	.Ldebug_info0
+ 1910 000a 04       		.byte	0x4
+ 1911 000b 00       		.byte	0
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 37
+
+
+ 1912 000c 0000     		.2byte	0
+ 1913 000e 0000     		.2byte	0
+ 1914 0010 00000000 		.4byte	.LFB63
+ 1915 0014 1C030000 		.4byte	.LFE63-.LFB63
+ 1916 0018 00000000 		.4byte	0
+ 1917 001c 00000000 		.4byte	0
+ 1918              		.section	.debug_ranges,"",%progbits
+ 1919              	.Ldebug_ranges0:
+ 1920 0000 00000000 		.4byte	.LFB63
+ 1921 0004 1C030000 		.4byte	.LFE63
+ 1922 0008 00000000 		.4byte	0
+ 1923 000c 00000000 		.4byte	0
+ 1924              		.section	.debug_line,"",%progbits
+ 1925              	.Ldebug_line0:
+ 1926 0000 48020000 		.section	.debug_str,"MS",%progbits,1
+ 1926      02006201 
+ 1926      00000201 
+ 1926      FB0E0D00 
+ 1926      01010101 
+ 1927              	.LASF6:
+ 1928 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1928      206C6F6E 
+ 1928      6720696E 
+ 1928      7400
+ 1929              	.LASF3:
+ 1930 000e 73686F72 		.ascii	"short unsigned int\000"
+ 1930      7420756E 
+ 1930      7369676E 
+ 1930      65642069 
+ 1930      6E7400
+ 1931              	.LASF8:
+ 1932 0021 756E7369 		.ascii	"unsigned int\000"
+ 1932      676E6564 
+ 1932      20696E74 
+ 1932      00
+ 1933              	.LASF23:
+ 1934 002e 6D61696E 		.ascii	"main.c\000"
+ 1934      2E6300
+ 1935              	.LASF18:
+ 1936 0035 7369676E 		.ascii	"signal\000"
+ 1936      616C00
+ 1937              	.LASF0:
+ 1938 003c 7369676E 		.ascii	"signed char\000"
+ 1938      65642063 
+ 1938      68617200 
+ 1939              	.LASF22:
+ 1940 0048 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1940      43313120 
+ 1940      352E342E 
+ 1940      31203230 
+ 1940      31363036 
+ 1941 007b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1941      20726576 
+ 1941      6973696F 
+ 1941      6E203233 
+ 1941      37373135 
+ 1942 00ae 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 38
+
+
+ 1942      66756E63 
+ 1942      74696F6E 
+ 1942      2D736563 
+ 1942      74696F6E 
+ 1943              	.LASF24:
+ 1944 00d6 433A5C55 		.ascii	"C:\\Users\\slavi\\Documents\\PSoC Creator\\PPAZ_2\\"
+ 1944      73657273 
+ 1944      5C736C61 
+ 1944      76695C44 
+ 1944      6F63756D 
+ 1945 0103 5050415A 		.ascii	"PPAZ_2.cydsn\000"
+ 1945      5F322E63 
+ 1945      7964736E 
+ 1945      00
+ 1946              	.LASF20:
+ 1947 0110 43794465 		.ascii	"CyDelay\000"
+ 1947      6C617900 
+ 1948              	.LASF11:
+ 1949 0118 75696E74 		.ascii	"uint8\000"
+ 1949      3800
+ 1950              	.LASF5:
+ 1951 011e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1951      20756E73 
+ 1951      69676E65 
+ 1951      6420696E 
+ 1951      7400
+ 1952              	.LASF7:
+ 1953 0130 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1953      206C6F6E 
+ 1953      6720756E 
+ 1953      7369676E 
+ 1953      65642069 
+ 1954              	.LASF25:
+ 1955 0147 6D61696E 		.ascii	"main\000"
+ 1955      00
+ 1956              	.LASF1:
+ 1957 014c 756E7369 		.ascii	"unsigned char\000"
+ 1957      676E6564 
+ 1957      20636861 
+ 1957      7200
+ 1958              	.LASF14:
+ 1959 015a 63686172 		.ascii	"char\000"
+ 1959      00
+ 1960              	.LASF4:
+ 1961 015f 6C6F6E67 		.ascii	"long int\000"
+ 1961      20696E74 
+ 1961      00
+ 1962              	.LASF13:
+ 1963 0168 646F7562 		.ascii	"double\000"
+ 1963      6C6500
+ 1964              	.LASF17:
+ 1965 016f 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1965      52784275 
+ 1965      66666572 
+ 1965      00
+ 1966              	.LASF16:
+ 1967 017c 6C6F6E67 		.ascii	"long double\000"
+ARM GAS  C:\Users\slavi\AppData\Local\Temp\ccKdxulV.s 			page 39
+
+
+ 1967      20646F75 
+ 1967      626C6500 
+ 1968              	.LASF21:
+ 1969 0188 56444143 		.ascii	"VDAC8_Start\000"
+ 1969      385F5374 
+ 1969      61727400 
+ 1970              	.LASF9:
+ 1971 0194 5F5F696E 		.ascii	"__int32_t\000"
+ 1971      7433325F 
+ 1971      7400
+ 1972              	.LASF12:
+ 1973 019e 666C6F61 		.ascii	"float\000"
+ 1973      7400
+ 1974              	.LASF2:
+ 1975 01a4 73686F72 		.ascii	"short int\000"
+ 1975      7420696E 
+ 1975      7400
+ 1976              	.LASF10:
+ 1977 01ae 696E7433 		.ascii	"int32_t\000"
+ 1977      325F7400 
+ 1978              	.LASF19:
+ 1979 01b6 56444143 		.ascii	"VDAC8_SetValue\000"
+ 1979      385F5365 
+ 1979      7456616C 
+ 1979      756500
+ 1980              	.LASF15:
+ 1981 01c5 73697A65 		.ascii	"sizetype\000"
+ 1981      74797065 
+ 1981      00
+ 1982              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
