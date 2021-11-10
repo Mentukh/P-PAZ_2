@@ -19,7 +19,7 @@
 >
 ## Код програми
 
-'''с
+```c
 #include "project.h"
 #define SIZE(x) sizeof(x)/sizeof(x[0])
 #define MINUS 0
@@ -162,7 +162,7 @@ int main(void)
         }   
     }
 }
-'''
+```
 
 >
 ## Результат програми
